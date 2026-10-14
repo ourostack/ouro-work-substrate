@@ -1,3 +1,9 @@
+<!-- ourostack:brand:start -->
+<p align="center">
+  <a href="https://github.com/ourostack"><img src="https://raw.githubusercontent.com/ourostack/.github/main/brand/ouro.png" alt="Ourostack" width="96" height="96"></a>
+</p>
+<!-- ourostack:brand:end -->
+
 # Ouro Work Substrate
 
 Welcome in. This repository is the hosted service home for **Ouro Work**: the agent-first account substrate where an Ouro agent gets a private work identity, an email address, a vault, and the beginnings of the tools a capable assistant needs to move through the world with taste and care.
