@@ -81,7 +81,7 @@ describe("mail control server", () => {
           eventTime: "2026-04-23T01:35:00.000Z",
           data: {
             sender: "slugger@ouro.bot",
-            recipient: "ari@mendelow.me",
+            recipient: "owner@example.test",
             messageId: "acs-operation-1",
             status: "Bounced",
             deliveryStatusDetails: { statusMessage: "mailbox unavailable; secret body must not be here" },
@@ -95,7 +95,7 @@ describe("mail control server", () => {
         providerEventId: "event-bounced-1",
         providerMessageId: "acs-operation-1",
         outcome: "bounced",
-        recipient: "ari@mendelow.me",
+        recipient: "owner@example.test",
         bodySafeSummary: expect.stringContaining("Bounced"),
       }))
       expect(JSON.stringify(outboundEvents.recordDeliveryEvent.mock.calls)).not.toContain("secret body")
@@ -187,7 +187,7 @@ describe("mail control server", () => {
           id: "event-bounced-nosink",
           eventType: "Microsoft.Communication.EmailDeliveryReportReceived",
           data: {
-            recipient: "ari@mendelow.me",
+            recipient: "owner@example.test",
             messageId: "acs-operation-1",
             status: "Bounced",
             deliveryStatusDetails: { statusMessage: "secret diagnostic body" },
@@ -257,14 +257,14 @@ describe("mail control server", () => {
         },
         body: JSON.stringify({
           agentId: "slugger",
-          ownerEmail: "ari@mendelow.me",
+          ownerEmail: "owner@example.test",
           source: "hey",
         }),
       })
       const body = await response.json() as Record<string, unknown>
       expect(response.status).toBe(200)
       expect(body.mailboxAddress).toBe("slugger@ouro.bot")
-      expect(body.sourceAlias).toBe("me.mendelow.ari.slugger@ouro.bot")
+      expect(body.sourceAlias).toBe("test.example.owner.slugger@ouro.bot")
       expect(Object.keys(body.generatedPrivateKeys as Record<string, string>)).toHaveLength(2)
 
       const second = await fetch(`http://127.0.0.1:${port}/v1/mailboxes/ensure`, {
@@ -273,7 +273,7 @@ describe("mail control server", () => {
           authorization: "Bearer secret",
           "content-type": "application/json",
         },
-        body: JSON.stringify({ agentId: "slugger", ownerEmail: "ari@mendelow.me", source: "hey" }),
+        body: JSON.stringify({ agentId: "slugger", ownerEmail: "owner@example.test", source: "hey" }),
       })
       const secondBody = await second.json() as Record<string, unknown>
       expect(secondBody.generatedPrivateKeys).toEqual({})
@@ -403,7 +403,7 @@ describe("mail control server", () => {
         },
         body: JSON.stringify({
           agentId: "slugger",
-          ownerEmail: "ari@mendelow.me",
+          ownerEmail: "owner@example.test",
           source: "hey",
         }),
       })
@@ -434,9 +434,9 @@ describe("mail control server", () => {
       expect(sourceGrant).toEqual(expect.objectContaining({
         grantId: expect.stringMatching(/^grant_slugger_hey_/),
         agentId: "slugger",
-        ownerEmail: "ari@mendelow.me",
+        ownerEmail: "owner@example.test",
         source: "hey",
-        aliasAddress: "me.mendelow.ari.slugger@ouro.bot",
+        aliasAddress: "test.example.owner.slugger@ouro.bot",
         keyId: expect.stringMatching(/^mail_slugger-hey_/),
         defaultPlacement: "imbox",
         enabled: true,
@@ -453,7 +453,7 @@ describe("mail control server", () => {
           authorization: "Bearer secret",
           "content-type": "application/json",
         },
-        body: JSON.stringify({ agentId: "slugger", ownerEmail: "ari@mendelow.me", source: "hey" }),
+        body: JSON.stringify({ agentId: "slugger", ownerEmail: "owner@example.test", source: "hey" }),
       })
       const secondBody = await second.json() as Record<string, unknown>
       expect(secondBody.generatedPrivateKeys).toEqual({})
@@ -495,7 +495,7 @@ describe("mail control server", () => {
           authorization: "Bearer secret",
           "content-type": "application/json",
         },
-        body: JSON.stringify({ agentId: "slugger", ownerEmail: "ari@mendelow.me", source: "hey" }),
+        body: JSON.stringify({ agentId: "slugger", ownerEmail: "owner@example.test", source: "hey" }),
       })
       const firstBody = await first.json() as Record<string, unknown>
       const oldMailbox = firstBody.mailbox as Record<string, unknown>
@@ -509,7 +509,7 @@ describe("mail control server", () => {
         },
         body: JSON.stringify({
           agentId: "slugger",
-          ownerEmail: "ari@mendelow.me",
+          ownerEmail: "owner@example.test",
           source: "hey",
           rotateMailbox: true,
           rotateSourceGrant: true,
@@ -525,7 +525,7 @@ describe("mail control server", () => {
       expect(mailbox.keyId).not.toBe(oldMailbox.keyId)
       expect(sourceGrant.keyId).not.toBe(oldSource.keyId)
       expect(body.mailboxAddress).toBe("slugger@ouro.bot")
-      expect(body.sourceAlias).toBe("me.mendelow.ari.slugger@ouro.bot")
+      expect(body.sourceAlias).toBe("test.example.owner.slugger@ouro.bot")
       expect(body.publicRegistry).toEqual(expect.objectContaining({ revision: expect.any(String) }))
       const generatedPrivateKeys = body.generatedPrivateKeys as Record<string, string>
       expect(generatedPrivateKeys[mailbox.keyId as string]).toContain("BEGIN PRIVATE KEY")
@@ -601,7 +601,7 @@ describe("mail control server", () => {
         },
         body: JSON.stringify({
           agentId: "clio",
-          ownerEmail: "ari@mendelow.me",
+          ownerEmail: "owner@example.test",
           source: "calendar",
           sourceTag: "calendar",
           rotateSourceGrant: true,
@@ -612,7 +612,7 @@ describe("mail control server", () => {
       expect(sourceBody.addedMailbox).toBe(false)
       expect(sourceBody.addedSourceGrant).toBe(true)
       expect(sourceBody.rotatedSourceGrant).toBe(false)
-      expect(sourceBody.sourceAlias).toBe("me.mendelow.ari.calendar.clio@ouro.bot")
+      expect(sourceBody.sourceAlias).toBe("test.example.owner.calendar.clio@ouro.bot")
       expect(sourceBody.sourceGrant).toEqual(expect.objectContaining({ source: "calendar" }))
     } finally {
       server.close()
@@ -796,12 +796,12 @@ describe("mail control server", () => {
         },
         body: JSON.stringify({
           agentId: "slugger",
-          ownerEmail: "ari@mendelow.me",
+          ownerEmail: "owner@example.test",
           sourceTag: "calendar",
         }),
       })
       const body = await response.json() as Record<string, unknown>
-      expect(body.sourceAlias).toBe("me.mendelow.ari.calendar.slugger@ouro.bot")
+      expect(body.sourceAlias).toBe("test.example.owner.calendar.slugger@ouro.bot")
     } finally {
       server.close()
     }

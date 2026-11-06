@@ -67,7 +67,7 @@ function outboundRecord(): MailOutboundRecord {
     ownerEmail: null,
     source: null,
     from: "slugger@ouro.bot",
-    to: ["ari@mendelow.me"],
+    to: ["owner@example.test"],
     cc: [],
     bcc: [],
     subject: "Provider event proof",
@@ -91,10 +91,10 @@ function deliveryEvent(overrides: Partial<MailOutboundDeliveryEvent> = {}): Mail
     providerEventId: "event-delivered-1",
     providerMessageId: "acs-operation-1",
     outcome: "delivered",
-    recipient: "ari@mendelow.me",
+    recipient: "owner@example.test",
     occurredAt: "2026-04-23T12:02:00.000Z",
     receivedAt: "2026-04-23T12:02:01.000Z",
-    bodySafeSummary: "ACS delivery report Delivered for ari@mendelow.me",
+    bodySafeSummary: "ACS delivery report Delivered for owner@example.test",
     providerStatus: "Delivered",
     ...overrides,
   }
@@ -132,7 +132,7 @@ describe("AzureBlobOutboundEventSink", () => {
       providerEventId: "///",
       providerMessageId: "///",
       outcome: "bounced",
-      bodySafeSummary: "ACS delivery report Bounced for ari@mendelow.me",
+      bodySafeSummary: "ACS delivery report Bounced for owner@example.test",
       providerStatus: "Bounced",
     })
 

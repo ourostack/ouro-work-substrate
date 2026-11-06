@@ -33,7 +33,7 @@ That is the core promise:
 3. Mail ingress uses public keys to encrypt raw MIME and parsed private envelopes.
 4. The local agent reads mail through vault-held keys, with mail presented as a sense.
 
-Native agent mail, such as `slugger@ouro.bot`, starts in Screener. Delegated human mail, such as `me.mendelow.ari.slugger@ouro.bot`, carries owner/source provenance and can land in Imbox when the source grant says it should. "Discard" means recoverable drawer, not bounce or delete.
+Native agent mail, such as `slugger@ouro.bot`, starts in Screener. Delegated human mail, such as `test.example.owner.slugger@ouro.bot`, carries owner/source provenance and can land in Imbox when the source grant says it should. "Discard" means recoverable drawer, not bounce or delete.
 
 ## Production State
 

@@ -23,10 +23,10 @@ Future agents should not have to rediscover the credential ontology by arguing w
 
 The harness already has a general vault-backed credential layer:
 
-- `/Users/arimendelow/Projects/ouroboros-agent-harness/src/repertoire/credential-access.ts` says each agent owns one credential vault and `getCredentialStore()` returns that agent's vault directly.
+- `/Users/maintainer/Projects/ouroboros-agent-harness/src/repertoire/credential-access.ts` says each agent owns one credential vault and `getCredentialStore()` returns that agent's vault directly.
 - `CredentialStore` exposes `get`, `getRawSecret`, `store`, `list`, `delete`, and `isReady` over item names.
-- `/Users/arimendelow/Projects/ouroboros-agent-harness/src/repertoire/bitwarden-store.ts` already creates, edits, lists, reads, and deletes Bitwarden/Vaultwarden items.
-- `/Users/arimendelow/Projects/ouroboros-agent-harness/src/repertoire/tools-credential.ts` already has agent-facing credential tools with notes, metadata-only list/get, hidden secret handling, and no password return.
+- `/Users/maintainer/Projects/ouroboros-agent-harness/src/repertoire/bitwarden-store.ts` already creates, edits, lists, reads, and deletes Bitwarden/Vaultwarden items.
+- `/Users/maintainer/Projects/ouroboros-agent-harness/src/repertoire/tools-credential.ts` already has agent-facing credential tools with notes, metadata-only list/get, hidden secret handling, and no password return.
 
 So the production fix is not "invent a new credential system." It is exposing and documenting the existing primitive correctly.
 
@@ -41,18 +41,18 @@ The current checked-out harness docs already say:
 
 Good phrases exist in:
 
-- `/Users/arimendelow/Projects/ouroboros-agent-harness/README.md`;
-- `/Users/arimendelow/Projects/ouroboros-agent-harness/AGENTS.md`;
-- `/Users/arimendelow/Projects/ouroboros-agent-harness/CONTRIBUTING.md`;
-- `/Users/arimendelow/Projects/ouroboros-agent-harness/docs/auth-and-providers.md`;
-- `/Users/arimendelow/Projects/ouroboros-agent-harness/docs/cross-machine-setup.md`;
-- `/Users/arimendelow/Projects/ouroboros-agent-harness/skills/travel-planning.md`.
+- `/Users/maintainer/Projects/ouroboros-agent-harness/README.md`;
+- `/Users/maintainer/Projects/ouroboros-agent-harness/AGENTS.md`;
+- `/Users/maintainer/Projects/ouroboros-agent-harness/CONTRIBUTING.md`;
+- `/Users/maintainer/Projects/ouroboros-agent-harness/docs/auth-and-providers.md`;
+- `/Users/maintainer/Projects/ouroboros-agent-harness/docs/cross-machine-setup.md`;
+- `/Users/maintainer/Projects/ouroboros-agent-harness/skills/travel-planning.md`.
 
 The docs are not strong enough yet because they do not put the neutral vault item primitive, managed workflow, freeform item, and binding/run-config distinction in one canonical place.
 
 ### Misleading Surface On Harness Origin
 
-`/Users/arimendelow/Projects/ouroboros-agent-harness` was one commit behind origin during this inspection. Inspecting `FETCH_HEAD` showed the problematic production-facing surface:
+`/Users/maintainer/Projects/ouroboros-agent-harness` was one commit behind origin during this inspection. Inspecting `FETCH_HEAD` showed the problematic production-facing surface:
 
 - `docs/auth-and-providers.md` adds `## Operational Credentials`;
 - `docs/auth-and-providers.md` teaches `ops/registrars/porkbun/accounts/<account>` as an operational credential pattern;
@@ -83,7 +83,7 @@ Even before the Porkbun helper, some generic surfaces use domain-shaped language
 - `CredentialStore.get(domain)`;
 - `CredentialStore.store(domain, ...)`;
 - agent tools named around "credential domains";
-- credential tool schemas requiring `domain` even when an item path like `ops/porkbun/ari@mendelow.me` is not a domain.
+- credential tool schemas requiring `domain` even when an item path like `ops/porkbun/owner@example.test` is not a domain.
 
 This vocabulary quietly teaches the wrong thing. A vault item name can be a service domain, but it can also be a path, account label, integration key, local machine attachment, or future workflow reference.
 
@@ -172,7 +172,7 @@ ouro vault item note --agent <agent> --item <path>
 Template behavior:
 
 ```bash
-ouro vault item set --agent slugger --item ops/porkbun/ari@mendelow.me --template porkbun-api
+ouro vault item set --agent slugger --item ops/porkbun/owner@example.test --template porkbun-api
 ```
 
 The template prompts for hidden fields. It does not create a special credential kind.
@@ -180,7 +180,7 @@ The template prompts for hidden fields. It does not create a special credential 
 Compatibility behavior:
 
 ```bash
-ouro vault ops porkbun set --agent slugger --account ari@mendelow.me
+ouro vault ops porkbun set --agent slugger --account owner@example.test
 ```
 
 This should print something like:
@@ -188,7 +188,7 @@ This should print something like:
 ```text
 deprecated compatibility alias: use ouro vault item set --template porkbun-api
 stored ordinary vault item for slugger
-item: vault:slugger:ops/registrars/porkbun/accounts/ari@mendelow.me
+item: vault:slugger:ops/registrars/porkbun/accounts/owner@example.test
 notes: present
 secret values were not printed
 ```
@@ -261,7 +261,7 @@ It should not print `authority:` as a property of the item. If authority/resourc
 workflow: dns
 domain: ouro.bot
 driver: porkbun
-vaultItem: ops/registrars/porkbun/accounts/ari@mendelow.me
+vaultItem: ops/registrars/porkbun/accounts/owner@example.test
 requiredSecretFields:
   - apiKey
   - secretApiKey
@@ -304,26 +304,26 @@ Constraints:
 
 Likely harness files:
 
-- `/Users/arimendelow/Projects/ouroboros-agent-harness/docs/auth-and-providers.md`
-- `/Users/arimendelow/Projects/ouroboros-agent-harness/README.md`
-- `/Users/arimendelow/Projects/ouroboros-agent-harness/AGENTS.md`
-- `/Users/arimendelow/Projects/ouroboros-agent-harness/CONTRIBUTING.md`
-- `/Users/arimendelow/Projects/ouroboros-agent-harness/src/__tests__/docs/auth-and-providers.contract.test.ts`
-- `/Users/arimendelow/Projects/ouroboros-agent-harness/src/__tests__/heart/daemon/provider-cli-commands.test.ts`
-- `/Users/arimendelow/Projects/ouroboros-agent-harness/src/heart/daemon/cli-help.ts`
-- `/Users/arimendelow/Projects/ouroboros-agent-harness/src/heart/daemon/cli-parse.ts`
-- `/Users/arimendelow/Projects/ouroboros-agent-harness/src/heart/daemon/cli-types.ts`
-- `/Users/arimendelow/Projects/ouroboros-agent-harness/src/heart/daemon/cli-exec.ts`
-- `/Users/arimendelow/Projects/ouroboros-agent-harness/src/heart/daemon/porkbun-ops.ts`
-- `/Users/arimendelow/Projects/ouroboros-agent-harness/src/repertoire/credential-access.ts`
-- `/Users/arimendelow/Projects/ouroboros-agent-harness/src/repertoire/tools-credential.ts`
+- `/Users/maintainer/Projects/ouroboros-agent-harness/docs/auth-and-providers.md`
+- `/Users/maintainer/Projects/ouroboros-agent-harness/README.md`
+- `/Users/maintainer/Projects/ouroboros-agent-harness/AGENTS.md`
+- `/Users/maintainer/Projects/ouroboros-agent-harness/CONTRIBUTING.md`
+- `/Users/maintainer/Projects/ouroboros-agent-harness/src/__tests__/docs/auth-and-providers.contract.test.ts`
+- `/Users/maintainer/Projects/ouroboros-agent-harness/src/__tests__/heart/daemon/provider-cli-commands.test.ts`
+- `/Users/maintainer/Projects/ouroboros-agent-harness/src/heart/daemon/cli-help.ts`
+- `/Users/maintainer/Projects/ouroboros-agent-harness/src/heart/daemon/cli-parse.ts`
+- `/Users/maintainer/Projects/ouroboros-agent-harness/src/heart/daemon/cli-types.ts`
+- `/Users/maintainer/Projects/ouroboros-agent-harness/src/heart/daemon/cli-exec.ts`
+- `/Users/maintainer/Projects/ouroboros-agent-harness/src/heart/daemon/porkbun-ops.ts`
+- `/Users/maintainer/Projects/ouroboros-agent-harness/src/repertoire/credential-access.ts`
+- `/Users/maintainer/Projects/ouroboros-agent-harness/src/repertoire/tools-credential.ts`
 
 Likely substrate files:
 
-- `/Users/arimendelow/Projects/ouro-work-substrate/AGENTS.md`
-- `/Users/arimendelow/Projects/ouro-work-substrate/docs/operations.md`
-- `/Users/arimendelow/Projects/ouro-work-substrate/slugger/tasks/2026-04-22-1308-planning-mail-production-path.md`
-- `/Users/arimendelow/Projects/ouro-work-substrate/slugger/tasks/2026-04-22-1308-doing-mail-production-path.md`
+- `/Users/maintainer/Projects/ouro-work-substrate/AGENTS.md`
+- `/Users/maintainer/Projects/ouro-work-substrate/docs/operations.md`
+- `/Users/maintainer/Projects/ouro-work-substrate/slugger/tasks/2026-04-22-1308-planning-mail-production-path.md`
+- `/Users/maintainer/Projects/ouro-work-substrate/slugger/tasks/2026-04-22-1308-doing-mail-production-path.md`
 
 Acceptance signals:
 

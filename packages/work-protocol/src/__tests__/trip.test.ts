@@ -18,12 +18,12 @@ function tripRecord(overrides: Partial<TripRecord> = {}): TripRecord {
     schemaVersion: 1,
     tripId: "trip_test_0000000000000000",
     agentId: "slugger",
-    ownerEmail: "ari@mendelow.me",
+    ownerEmail: "owner@example.test",
     name: "Europe summer 2026",
     status: "confirmed",
     startDate: "2026-08-01",
     endDate: "2026-08-15",
-    travellers: [{ name: "Ari" }],
+    travellers: [{ name: "Alex" }],
     legs: [
       {
         legId: "leg_lodging_0000000000000000",
@@ -118,7 +118,7 @@ describe("encryptTripRecord / decryptTripRecord", () => {
             discoveryMethod: "inferred",
           }, {
             messageId: "operator-direct-2026-04-03",
-            reason: "Ari confirmed during chat that he plans to overnight in Zurich",
+            reason: "Alex confirmed during chat that he plans to overnight in Zurich",
             recordedAt: "2026-04-03T09:00:00.000Z",
             discoveryMethod: "operator_supplied",
           }],

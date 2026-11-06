@@ -69,33 +69,33 @@ const mailView = {
   store: { kind: "file", label: "/tmp/mailroom" },
   folders: [
     { id: "imbox", label: "Imbox", count: 2 },
-    { id: "source:hey:ari@mendelow.me", label: "Ari HEY", count: 1 },
+    { id: "source:hey:owner@example.test", label: "Alex HEY", count: 1 },
     { id: "source:hey:maya@example.com", label: "Maya HEY", count: 1 },
     { id: "sent", label: "Sent", count: 1 },
   ],
   messages: [
     {
       id: "mail_ari",
-      subject: "Ari delegated note",
-      from: ["ari@mendelow.me"],
-      to: ["me.mendelow.ari.slugger@ouro.bot"],
+      subject: "Alex delegated note",
+      from: ["owner@example.test"],
+      to: ["test.example.owner.slugger@ouro.bot"],
       cc: [],
       date: null,
       receivedAt: "2026-04-23T01:10:00.000Z",
-      snippet: "Ari mailbox evidence for the executive assistant lane.",
+      snippet: "Alex mailbox evidence for the executive assistant lane.",
       placement: "imbox",
       compartmentKind: "delegated",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
       source: "hey",
-      recipient: "me.mendelow.ari.slugger@ouro.bot",
+      recipient: "test.example.owner.slugger@ouro.bot",
       attachmentCount: 0,
       untrustedContentWarning: "untrusted external data",
       provenance: {
         placement: "imbox",
         compartmentKind: "delegated",
-        ownerEmail: "ari@mendelow.me",
+        ownerEmail: "owner@example.test",
         source: "hey",
-        recipient: "me.mendelow.ari.slugger@ouro.bot",
+        recipient: "test.example.owner.slugger@ouro.bot",
         mailboxId: "mailbox_slugger",
         grantId: "grant_ari_hey",
         trustReason: "screened-in delegated source",
@@ -138,7 +138,7 @@ const mailView = {
     ownerEmail: null,
     source: null,
     from: "slugger@ouro.bot",
-    to: ["ari@mendelow.me"],
+    to: ["owner@example.test"],
     cc: [],
     bcc: [],
     subject: "Autonomous provider proof",
@@ -162,7 +162,7 @@ const mailView = {
       code: "allowed",
       reason: "Autonomous native-agent mail policy allowed this send",
       evaluatedAt: "2026-04-23T01:30:00.000Z",
-      recipients: ["ari@mendelow.me"],
+      recipients: ["owner@example.test"],
       fallback: "none",
       policyId: "policy_slugger_native_mail",
       remainingSendsInWindow: 1,
@@ -172,10 +172,10 @@ const mailView = {
       providerEventId: "event-expanded-1",
       providerMessageId: "acs-operation-1",
       outcome: "accepted",
-      recipient: "ari@mendelow.me",
+      recipient: "owner@example.test",
       occurredAt: "2026-04-23T01:32:00.000Z",
       receivedAt: "2026-04-23T01:32:01.000Z",
-      bodySafeSummary: "ACS delivery report Expanded for ari@mendelow.me",
+      bodySafeSummary: "ACS delivery report Expanded for owner@example.test",
       providerStatus: "Expanded",
     }],
   }],
@@ -189,7 +189,7 @@ const mailView = {
       reason: "read delegated message body",
       mailboxRole: "delegated-human-mailbox",
       compartmentKind: "delegated",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
       source: "hey",
       accessedAt: "2026-04-23T01:10:00.000Z",
     },
@@ -261,20 +261,20 @@ async function main() {
     await page.setViewportSize({ width: 1440, height: 1000 })
     await page.goto(`${baseUrl}/#/agent/slugger/mail`, { waitUntil: "networkidle" })
     await assertTextVisible(page, "delegated human mailbox")
-    await assertTextVisible(page, "ari@mendelow.me / hey")
+    await assertTextVisible(page, "owner@example.test / hey")
     await assertNoHorizontalOverflow(page)
     await page.screenshot({ path: path.join(artifactsDir, "unit8c-mailbox-desktop.png"), fullPage: true })
 
     await page.getByRole("button", { name: /Sent/ }).click()
     await assertTextVisible(page, "Autonomous provider proof")
     await assertTextVisible(page, "acs-operation-1")
-    await assertTextVisible(page, "ACS delivery report Expanded for ari@mendelow.me")
+    await assertTextVisible(page, "ACS delivery report Expanded for owner@example.test")
     await assertNoHorizontalOverflow(page)
     await page.screenshot({ path: path.join(artifactsDir, "unit8c-mailbox-sent-desktop.png"), fullPage: true })
 
     await page.setViewportSize({ width: 390, height: 844 })
     await page.goto(`${baseUrl}/#/agent/slugger/mail`, { waitUntil: "networkidle" })
-    await assertTextVisible(page, "Ari HEY")
+    await assertTextVisible(page, "Alex HEY")
     await assertTextVisible(page, "Maya HEY")
     await assertNoHorizontalOverflow(page)
     await page.screenshot({ path: path.join(artifactsDir, "unit8c-mailbox-mobile.png"), fullPage: true })

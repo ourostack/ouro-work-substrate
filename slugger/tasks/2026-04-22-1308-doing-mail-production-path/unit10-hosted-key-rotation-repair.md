@@ -6,7 +6,7 @@ Started: 2026-04-23 04:36 PDT
 
 Live hosted setup exposed a recovery gap before the final mail smoke could proceed.
 
-`ouro account ensure --agent slugger --owner-email ari@mendelow.me --source hey` correctly called hosted Mail Control, but the hosted registry already referenced public mail key ids whose matching private keys were not present in Slugger's vault runtime config.
+`ouro account ensure --agent slugger --owner-email owner@example.test --source hey` correctly called hosted Mail Control, but the hosted registry already referenced public mail key ids whose matching private keys were not present in Slugger's vault runtime config.
 
 The harness failed before writing partial config:
 
@@ -23,7 +23,7 @@ That detection was good. The missing production piece was a safe way for hosted 
 - Private mail keys live in the owning agent vault runtime config.
 - Rotation repairs future mail access.
 - Rotation cannot decrypt mail already encrypted to a lost private key.
-- Native `slugger@ouro.bot` and delegated `me.mendelow.ari.slugger@ouro.bot` keys may be rotated independently.
+- Native `slugger@ouro.bot` and delegated `test.example.owner.slugger@ouro.bot` keys may be rotated independently.
 
 ## Substrate Patch
 
@@ -104,7 +104,7 @@ ouro from ouro.bot-cli-0.1.0-alpha.471.tgz verified at 0.1.0-alpha.471
 4. Run:
 
 ```text
-ouro account ensure --agent slugger --owner-email ari@mendelow.me --source hey --rotate-missing-mail-keys
+ouro account ensure --agent slugger --owner-email owner@example.test --source hey --rotate-missing-mail-keys
 ```
 
 5. Verify Slugger runtime config has hosted Blob coordinates, native and delegated aliases, and fresh private key ids without printing private key material.
@@ -121,7 +121,7 @@ Completed:
 - Live repair command succeeded for Slugger without printing secret key material:
 
 ```text
-ouro account ensure --agent slugger --owner-email ari@mendelow.me --source hey --rotate-missing-mail-keys
+ouro account ensure --agent slugger --owner-email owner@example.test --source hey --rotate-missing-mail-keys
 ```
 
 - Slugger runtime config now points at the hosted Blob store and contains current native plus delegated private key ids.

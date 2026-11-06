@@ -60,7 +60,7 @@ Files:
 Command:
 
 ```bash
-set -o pipefail; npx vitest run src/__tests__/heart/daemon/provider-cli-commands.test.ts -t "DNS workflow" src/__tests__/heart/daemon/dns-workflow.test.ts 2>&1 | tee /Users/arimendelow/Projects/ouro-work-substrate/slugger/tasks/2026-04-22-1308-doing-mail-production-path/unit3a-harness-red.log
+set -o pipefail; npx vitest run src/__tests__/heart/daemon/provider-cli-commands.test.ts -t "DNS workflow" src/__tests__/heart/daemon/dns-workflow.test.ts 2>&1 | tee /Users/maintainer/Projects/ouro-work-substrate/slugger/tasks/2026-04-22-1308-doing-mail-production-path/unit3a-harness-red.log
 ```
 
 Expected red result:

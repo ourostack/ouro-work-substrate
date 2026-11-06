@@ -27,7 +27,7 @@ A change should not be considered production-ready unless these are true:
 The production proof for Slugger established:
 
 - Native mail: `slugger@ouro.bot`.
-- Delegated HEY alias: `me.mendelow.ari.slugger@ouro.bot`.
+- Delegated HEY alias: `test.example.owner.slugger@ouro.bot`.
 - Native inbound placement: Screener.
 - Delegated HEY placement: Imbox.
 - Storage: Azure Blob Storage encrypted payload records.

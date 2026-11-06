@@ -13,7 +13,7 @@
 - **direct**: Execute units sequentially in current session (default)
 
 ## Objective
-Bring Agent Mail to full production shape across Ouro Work Substrate and the Ouroboros harness while keeping native agent correspondence and delegated human mailbox access visibly separate. Agent-native mail must support real autonomous receive and policy-governed autonomous send as `slugger@ouro.bot`; delegated HEY mail must provide full executive-assistant access to Ari's mailbox through export backfill and future forwarding without becoming Slugger's own correspondence or send-as-human authority.
+Bring Agent Mail to full production shape across Ouro Work Substrate and the Ouroboros harness while keeping native agent correspondence and delegated human mailbox access visibly separate. Agent-native mail must support real autonomous receive and policy-governed autonomous send as `slugger@ouro.bot`; delegated HEY mail must provide full executive-assistant access to Alex's mailbox through export backfill and future forwarding without becoming Slugger's own correspondence or send-as-human authority.
 
 ## Upstream Work Items
 - None
@@ -28,18 +28,18 @@ Bring Agent Mail to full production shape across Ouro Work Substrate and the Our
 - [x] Shared mail protocol semantics are protected by a consumed `@ouro/work-protocol` package boundary or generated/schema contract tests so harness and substrate cannot drift silently.
 - [x] Production MX points to a proven port-25 edge with STARTTLS, size limits, transient/permanent failures, rate limits, recipient limits, and body-safe observability.
 - [ ] Native live mail to `slugger@ouro.bot` reaches encrypted Blob storage, decrypts through Slugger's vault key, enters the right Imbox/Screener state, and behaves as a body-safe sense.
-- [ ] Ari's delegated HEY source is backfilled from MBOX with provenance/freshness and receives all future forwarded mail at `me.mendelow.ari.slugger@ouro.bot` with owner/source labels everywhere.
+- [ ] Alex's delegated HEY source is backfilled from MBOX with provenance/freshness and receives all future forwarded mail at `test.example.owner.slugger@ouro.bot` with owner/source labels everywhere.
 - [ ] HEY forwarding onboarding is resumable, browser/MFA-aware, source-scoped, and recoverable when forwarding is missing, stale, or lossy.
 - [ ] Production outbound uses authenticated provider submission, records provider ids/events, and distinguishes submitted, accepted, delivered, bounced, suppressed, quarantined/spam-filtered, and failed outcomes.
 - [ ] Policy-governed autonomous native-agent sending is implemented with default confirmation for risky/new sends, explicit allow policy for autonomous low-risk sends, rate/recipient limits, audit, and kill switch.
-- [ ] Delegated human mail never grants send-as-human authority by default; follow-ups based on Ari's HEY mail send from the agent identity unless a future delegated-send product is approved.
+- [ ] Delegated human mail never grants send-as-human authority by default; follow-ups based on Alex's HEY mail send from the agent identity unless a future delegated-send product is approved.
 - [ ] SPF, DKIM/DKIM2 where required, and DMARC records are applied and verified for the chosen sender domain.
 - [x] Recovery docs/tooling cover DNS, port 25, Mail Control, vault/key drift, HEY forwarding, Blob access, decryption, wrong placement/provenance, outbound provider failures, and delivery events.
 - [x] Hosted substrate packaging/deployment is documented and verified as private commit-addressed Docker images plus Bicep/GitHub Actions deploy, not an npm package for deployable services.
 - [x] Branch protections for `ouro-work-substrate` and `ouroboros` require the intended green checks, enforce admins, require linear history, and require conversation resolution.
 - [ ] Live smoke proves hosted health, mailbox/source ensure, SMTP accept/reject, encryption/decryption, native Screener/Imbox, delegated HEY backfill and forward, autonomous native send policy, provider event reconciliation, and Ouro Outlook audit.
 - [x] `npm run ci:local` passes in `ouro-work-substrate`.
-- [x] Relevant harness tests, `npx tsc --noEmit`, and release preflight pass in `/Users/arimendelow/Projects/ouroboros-agent-harness` or its task worktree.
+- [x] Relevant harness tests, `npx tsc --noEmit`, and release preflight pass in `/Users/maintainer/Projects/ouroboros-agent-harness` or its task worktree.
 - [x] 100% test coverage on all new code.
 - [x] All tests pass.
 - [x] No warnings.
@@ -104,7 +104,7 @@ Legend: ⬜ Not started · 🔄 In progress · ✅ Done · ❌ Blocked
 ### ✅ Unit 1b: Two-Lane Mail Contract — Implementation
 **What**: Update shared protocol, harness mailroom types, docs, prompts, Outlook reader/UI, and tool responses so every mail object is clearly native-agent or delegated-human-source with stable owner/source provenance.
 **Output**: Contract/code/docs changes in the appropriate repo PRs.
-**Acceptance**: Red tests pass; no user-facing surface can present Ari's HEY mail as Slugger's own correspondence.
+**Acceptance**: Red tests pass; no user-facing surface can present Alex's HEY mail as Slugger's own correspondence.
 
 ### ✅ Unit 1c: Two-Lane Mail Contract — Coverage And Refactor
 **What**: Fill branch/error coverage, remove duplicate vocabulary, and verify cross-repo contract drift is caught by tests or generated/shared types.
@@ -162,9 +162,9 @@ Legend: ⬜ Not started · 🔄 In progress · ✅ Done · ❌ Blocked
 **Acceptance**: Tests fail where historical import and live delegated forwarding are not clearly separated.
 
 ### ✅ Unit 5b: Delegated HEY Source — Implementation
-**What**: Complete backfill/import and forwarding setup/recovery flow for Ari's HEY mailbox, including browser-automation hooks where available and guided fallback for login/MFA/export/forwarding.
+**What**: Complete backfill/import and forwarding setup/recovery flow for Alex's HEY mailbox, including browser-automation hooks where available and guided fallback for login/MFA/export/forwarding.
 **Output**: Harness setup/onboarding changes, source-state records, docs, and verification tooling.
-**Acceptance**: Ari's imported and future-forwarded HEY mail are searchable/readable with bounded audited tools and always labeled as delegated source mail.
+**Acceptance**: Alex's imported and future-forwarded HEY mail are searchable/readable with bounded audited tools and always labeled as delegated source mail.
 
 ### ✅ Unit 5c: Delegated HEY Source — Coverage And Refactor
 **What**: Cover missing MBOX, duplicate imports, forwarding not configured, source revoked while mail still forwards, wrong alias, and source-scoped allow/discard conflicts.

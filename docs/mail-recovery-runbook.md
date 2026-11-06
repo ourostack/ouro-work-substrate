@@ -5,7 +5,7 @@ Use this when Agent Mail behaves strangely in production or during live smoke. T
 Start by deciding which mailbox lane is affected:
 
 - Native agent mailbox, for example `slugger@ouro.bot`.
-- Delegated human mailbox source, for example `me.mendelow.ari.slugger@ouro.bot` for Ari's HEY source.
+- Delegated human mailbox source, for example `test.example.owner.slugger@ouro.bot` for Alex's HEY source.
 
 If those lanes are confused, stop and fix provenance before doing more delivery work.
 

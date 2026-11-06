@@ -46,15 +46,15 @@ describe("work protocol mail", () => {
     expect(stableJson(undefined)).toBe("null")
     expect(stableJson({ b: 2, a: undefined, c: ["x"] })).toBe('{"a":null,"b":2,"c":["x"]}')
     expect(safeAddressPart(" Slugger++Bot ")).toBe("slugger-bot")
-    expect(reverseEmailRoute("Ari.Mendelow@Example.COM")).toBe("com.example.ari.mendelow")
+    expect(reverseEmailRoute("Owner.Example@Example.COM")).toBe("com.example.owner.example")
   })
 
   it("builds readable delegated aliases from owner email and agent id", () => {
     expect(sourceAliasForOwner({
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
       agentId: "slugger",
       domain: "ouro.bot",
-    })).toBe("me.mendelow.ari.slugger@ouro.bot")
+    })).toBe("test.example.owner.slugger@ouro.bot")
     expect(sourceAliasForOwner({
       ownerEmail: "very.long.local.part.with.many.route.segments@example.co.uk",
       agentId: "!!!",
@@ -65,12 +65,12 @@ describe("work protocol mail", () => {
   it("ensures native and delegated mailboxes idempotently", () => {
     const first = ensureMailboxRegistry({
       agentId: "Slugger",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
       source: "hey",
     })
     const second = ensureMailboxRegistry({
       agentId: "slugger",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
       source: "hey",
       registry: first.registry,
       keys: first.keys,
@@ -81,22 +81,22 @@ describe("work protocol mail", () => {
     expect(second.addedMailbox).toBe(false)
     expect(second.addedSourceGrant).toBe(false)
     expect(second.mailboxAddress).toBe("slugger@ouro.bot")
-    expect(second.sourceAlias).toBe("me.mendelow.ari.slugger@ouro.bot")
+    expect(second.sourceAlias).toBe("test.example.owner.slugger@ouro.bot")
   })
 
   it("uses existing registry domains and enforces existing private keys when requested", () => {
     const first = ensureMailboxRegistry({
       agentId: "slugger",
       domain: "agents.example",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
       source: "calendar",
     })
 
     expect(first.mailboxAddress).toBe("slugger@agents.example")
-    expect(first.sourceAlias).toBe("me.mendelow.ari.calendar.slugger@agents.example")
+    expect(first.sourceAlias).toBe("test.example.owner.calendar.slugger@agents.example")
     expect(() => ensureMailboxRegistry({
       agentId: "slugger",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
       source: "calendar",
       registry: first.registry,
       keys: {},
@@ -104,7 +104,7 @@ describe("work protocol mail", () => {
 
     const repaired = ensureMailboxRegistry({
       agentId: "slugger",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
       source: "calendar",
       registry: first.registry,
       keys: {},
@@ -115,7 +115,7 @@ describe("work protocol mail", () => {
     const policy = buildSenderPolicy({
       agentId: "slugger",
       scope: "all",
-      match: { kind: "email", value: "ari@mendelow.me" },
+      match: { kind: "email", value: "owner@example.test" },
       action: "allow",
       actor: { kind: "human" },
       reason: "seed",
@@ -132,17 +132,17 @@ describe("work protocol mail", () => {
   it("falls back for blank agent ids and blank source labels", () => {
     const ensured = ensureMailboxRegistry({
       agentId: "!!!",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
       source: "!!!",
     })
 
     expect(ensured.mailboxAddress).toBe("agent@ouro.bot")
-    expect(ensured.sourceAlias).toBe("me.mendelow.ari.agent@ouro.bot")
+    expect(ensured.sourceAlias).toBe("test.example.owner.agent@ouro.bot")
     expect(ensured.registry.sourceGrants[0]?.grantId).toContain("grant_agent_source_")
 
     const defaultSource = ensureMailboxRegistry({
       agentId: "slugger",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
     })
     expect(defaultSource.registry.sourceGrants[0]?.source).toBe("hey")
   })
@@ -150,12 +150,12 @@ describe("work protocol mail", () => {
   it("supports public registry control without retaining existing private keys", () => {
     const first = ensurePublicMailboxRegistry({
       agentId: "slugger",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
       source: "hey",
     })
     const second = ensurePublicMailboxRegistry({
       agentId: "slugger",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
       source: "hey",
       registry: first.registry,
     })
@@ -171,7 +171,7 @@ describe("work protocol mail", () => {
   it("rotates hosted public mailbox and source keys when one-time private keys are lost", () => {
     const first = ensurePublicMailboxRegistry({
       agentId: "slugger",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
       source: "hey",
     })
     const oldMailbox = first.registry.mailboxes[0]!
@@ -179,7 +179,7 @@ describe("work protocol mail", () => {
 
     const rotated = rotatePublicMailboxRegistryKeys({
       agentId: "slugger",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
       source: "hey",
       registry: first.registry,
       rotateMailbox: true,
@@ -221,7 +221,7 @@ describe("work protocol mail", () => {
 
     const createdSource = rotatePublicMailboxRegistryKeys({
       agentId: "clio",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
       source: "calendar",
       sourceTag: "calendar",
       rotateSourceGrant: true,
@@ -229,7 +229,7 @@ describe("work protocol mail", () => {
     expect(createdSource.addedMailbox).toBe(true)
     expect(createdSource.addedSourceGrant).toBe(true)
     expect(createdSource.rotatedSourceGrant).toBe(false)
-    expect(createdSource.sourceAlias).toBe("me.mendelow.ari.calendar.clio@ouro.bot")
+    expect(createdSource.sourceAlias).toBe("test.example.owner.calendar.clio@ouro.bot")
 
     const fallbackAgent = rotatePublicMailboxRegistryKeys({
       agentId: "!!!",
@@ -239,7 +239,7 @@ describe("work protocol mail", () => {
 
     const defaultSource = rotatePublicMailboxRegistryKeys({
       agentId: "slugger",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
       rotateSourceGrant: true,
     })
     expect(defaultSource.registry.sourceGrants[0]?.source).toBe("hey")
@@ -248,13 +248,13 @@ describe("work protocol mail", () => {
   it("resolves delegated addresses and rejects disabled or orphaned grants", () => {
     const ensured = ensureMailboxRegistry({
       agentId: "slugger",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
       source: "hey",
     })
     const delegated = resolveMailAddress(ensured.registry, ensured.sourceAlias!)
     expect(delegated).toEqual(expect.objectContaining({
       compartmentKind: "delegated",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
       source: "hey",
     }))
 
@@ -280,7 +280,7 @@ describe("work protocol mail", () => {
 
     const ensured = ensureMailboxRegistry({
       agentId: "slugger",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
       source: "hey",
     })
     const native = resolveMailAddress(ensured.registry, "slugger@ouro.bot")!
@@ -302,10 +302,10 @@ describe("work protocol mail", () => {
     }).message
     const delegatedMessage = buildStoredMailMessage({
       resolved: delegated,
-      envelope: { mailFrom: "ari@mendelow.me", rcptTo: [ensured.sourceAlias!] },
+      envelope: { mailFrom: "owner@example.test", rcptTo: [ensured.sourceAlias!] },
       rawMime: Buffer.from("delegated", "utf-8"),
       privateEnvelope: {
-        from: ["ari@mendelow.me"],
+        from: ["owner@example.test"],
         to: [ensured.sourceAlias!],
         cc: [],
         subject: "Delegated",
@@ -327,9 +327,9 @@ describe("work protocol mail", () => {
     })
     expect(describeMailProvenance(delegatedMessage)).toEqual({
       mailboxRole: "delegated-human-mailbox",
-      mailboxLabel: "ari@mendelow.me / hey delegated to slugger",
+      mailboxLabel: "owner@example.test / hey delegated to slugger",
       agentId: "slugger",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
       source: "hey",
       recipient: ensured.sourceAlias,
       sendAsHumanAllowed: false,
@@ -393,11 +393,11 @@ describe("work protocol mail", () => {
   })
 
   it("builds delegated and screened messages with provenance and sender fallbacks", () => {
-    const ensured = ensureMailboxRegistry({ agentId: "slugger", ownerEmail: "ari@mendelow.me", source: "hey" })
+    const ensured = ensureMailboxRegistry({ agentId: "slugger", ownerEmail: "owner@example.test", source: "hey" })
     const delegated = resolveMailAddress(ensured.registry, ensured.sourceAlias!)!
     const delegatedMessage = buildStoredMailMessage({
       resolved: delegated,
-      envelope: { mailFrom: "ari@mendelow.me", rcptTo: [ensured.sourceAlias!] },
+      envelope: { mailFrom: "owner@example.test", rcptTo: [ensured.sourceAlias!] },
       rawMime: Buffer.from("raw", "utf-8"),
       privateEnvelope: {
         from: [],
@@ -417,7 +417,7 @@ describe("work protocol mail", () => {
       },
     })
     expect(delegatedMessage.candidate).toBeUndefined()
-    expect(delegatedMessage.message.ownerEmail).toBe("ari@mendelow.me")
+    expect(delegatedMessage.message.ownerEmail).toBe("owner@example.test")
     expect(delegatedMessage.message.source).toBe("hey")
     expect(delegatedMessage.message.authentication?.spf).toBe("pass")
 
@@ -463,10 +463,10 @@ describe("work protocol mail", () => {
 
     const imbox = buildStoredMailMessage({
       resolved: native,
-      envelope: { mailFrom: "ari@mendelow.me", rcptTo: ["slugger@ouro.bot"] },
+      envelope: { mailFrom: "owner@example.test", rcptTo: ["slugger@ouro.bot"] },
       rawMime: Buffer.from("raw-imbox", "utf-8"),
       privateEnvelope: {
-        from: ["ari@mendelow.me"],
+        from: ["owner@example.test"],
         to: ["slugger@ouro.bot"],
         cc: [],
         subject: "Allowed",
@@ -481,10 +481,10 @@ describe("work protocol mail", () => {
 
     const nativeDefaultImbox = buildStoredMailMessage({
       resolved: { ...native, defaultPlacement: "imbox" },
-      envelope: { mailFrom: "ari@mendelow.me", rcptTo: ["slugger@ouro.bot"] },
+      envelope: { mailFrom: "owner@example.test", rcptTo: ["slugger@ouro.bot"] },
       rawMime: Buffer.from("raw-native-default-imbox", "utf-8"),
       privateEnvelope: {
-        from: ["ari@mendelow.me"],
+        from: ["owner@example.test"],
         to: ["slugger@ouro.bot"],
         cc: [],
         subject: "Default imbox",
@@ -498,10 +498,10 @@ describe("work protocol mail", () => {
 
     const delegatedDefault = buildStoredMailMessage({
       resolved: delegated,
-      envelope: { mailFrom: "ari@mendelow.me", rcptTo: [ensured.sourceAlias!] },
+      envelope: { mailFrom: "owner@example.test", rcptTo: [ensured.sourceAlias!] },
       rawMime: Buffer.from("raw-delegated-default", "utf-8"),
       privateEnvelope: {
-        from: ["ari@mendelow.me"],
+        from: ["owner@example.test"],
         to: [ensured.sourceAlias!],
         cc: [],
         subject: "Delegated default",
@@ -517,10 +517,10 @@ describe("work protocol mail", () => {
     delete delegatedWithoutSource.source
     const delegatedCompartmentDefault = buildStoredMailMessage({
       resolved: delegatedWithoutSource,
-      envelope: { mailFrom: "ari@mendelow.me", rcptTo: [ensured.sourceAlias!] },
+      envelope: { mailFrom: "owner@example.test", rcptTo: [ensured.sourceAlias!] },
       rawMime: Buffer.from("raw-delegated-compartment-default", "utf-8"),
       privateEnvelope: {
-        from: ["ari@mendelow.me"],
+        from: ["owner@example.test"],
         to: [ensured.sourceAlias!],
         cc: [],
         subject: "Delegated compartment",
@@ -534,10 +534,10 @@ describe("work protocol mail", () => {
 
     const delegatedCandidate = buildStoredMailMessage({
       resolved: delegated,
-      envelope: { mailFrom: "ari@mendelow.me", rcptTo: [ensured.sourceAlias!] },
+      envelope: { mailFrom: "owner@example.test", rcptTo: [ensured.sourceAlias!] },
       rawMime: Buffer.from("raw-delegated-candidate", "utf-8"),
       privateEnvelope: {
-        from: ["ari@mendelow.me"],
+        from: ["owner@example.test"],
         to: [ensured.sourceAlias!],
         cc: [],
         subject: "Delegated candidate",
@@ -550,7 +550,7 @@ describe("work protocol mail", () => {
     })
     expect(delegatedCandidate.candidate).toEqual(expect.objectContaining({
       source: "hey",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
     }))
   })
 
@@ -563,7 +563,7 @@ describe("work protocol mail", () => {
       match: { kind: "email", value: "known@example.com" },
       action: "allow",
       actor: { kind: "human", trustLevel: "family" },
-      reason: "Ari confirmed this sender",
+      reason: "Alex confirmed this sender",
       createdAt: "2026-04-21T00:00:00.000Z",
     })
     const discard = buildSenderPolicy({
@@ -604,7 +604,7 @@ describe("work protocol mail", () => {
   })
 
   it("applies source, all-scope, and quarantine sender policies", () => {
-    const ensured = ensureMailboxRegistry({ agentId: "slugger", ownerEmail: "ari@mendelow.me", source: "hey" })
+    const ensured = ensureMailboxRegistry({ agentId: "slugger", ownerEmail: "owner@example.test", source: "hey" })
     const delegated = resolveMailAddress(ensured.registry, ensured.sourceAlias!)!
     const other = resolveMailAddress(ensured.registry, "slugger@ouro.bot")!
     const sourcePolicy = buildSenderPolicy({
@@ -613,7 +613,7 @@ describe("work protocol mail", () => {
       match: { kind: "source", value: "hey" },
       action: "allow",
       actor: { kind: "human", trustLevel: "family" },
-      reason: "Ari delegated HEY",
+      reason: "Alex delegated HEY",
     })
     const quarantine = buildSenderPolicy({
       agentId: "slugger",
@@ -634,7 +634,7 @@ describe("work protocol mail", () => {
     const otherAgent = buildSenderPolicy({
       agentId: "clio",
       scope: "all",
-      match: { kind: "email", value: "ari@mendelow.me" },
+      match: { kind: "email", value: "owner@example.test" },
       action: "discard",
       actor: { kind: "system" },
       reason: "wrong agent",
@@ -679,7 +679,7 @@ describe("work protocol mail", () => {
   })
 
   it("normalizes display addresses and rejects invalid values", () => {
-    expect(normalizeMailAddress("Ari <ARI@MENDELOW.ME>")).toBe("ari@mendelow.me")
+    expect(normalizeMailAddress("Alex <OWNER@EXAMPLE.TEST>")).toBe("owner@example.test")
     expect(() => normalizeMailAddress("not mail")).toThrow("Invalid email address")
     expect(generateMailKeyPair("!!!").keyId).toMatch(/^mail_key_[a-f0-9]{16}$/)
   })
@@ -687,7 +687,7 @@ describe("work protocol mail", () => {
   it("records ingest provenance so archive backfill and live SMTP forwarding cannot be confused", () => {
     const ensured = ensureMailboxRegistry({
       agentId: "slugger",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
       source: "hey",
     })
     const delegated = resolveMailAddress(ensured.registry, ensured.sourceAlias!)!
@@ -726,7 +726,7 @@ describe("work protocol mail", () => {
     })
     expect(describeMailProvenance(archive)).toEqual(expect.objectContaining({
       mailboxRole: "delegated-human-mailbox",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
       source: "hey",
     }))
 
@@ -744,7 +744,7 @@ describe("work protocol mail", () => {
 
     const nativeLive = buildStoredMailMessage({
       resolved: native,
-      envelope: { mailFrom: "ari@mendelow.me", rcptTo: ["slugger@ouro.bot"] },
+      envelope: { mailFrom: "owner@example.test", rcptTo: ["slugger@ouro.bot"] },
       rawMime: Buffer.from("native-live", "utf-8"),
       privateEnvelope: {
         ...privateEnvelope,

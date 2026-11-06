@@ -49,8 +49,8 @@ Result:
 
 Expected failures:
 
-- Clicking `Ari HEY` currently shows `No records here` because `source:hey:ari@mendelow.me` is compared directly to message source `hey`.
-- The access audit currently renders only tool/reason, not `delegated human mailbox`, `ari@mendelow.me / hey`, or `native agent mailbox`.
+- Clicking `Alex HEY` currently shows `No records here` because `source:hey:owner@example.test` is compared directly to message source `hey`.
+- The access audit currently renders only tool/reason, not `delegated human mailbox`, `owner@example.test / hey`, or `native agent mailbox`.
 
 Discovery note:
 

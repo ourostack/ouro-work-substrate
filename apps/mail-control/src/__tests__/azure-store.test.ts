@@ -85,12 +85,12 @@ describe("AzureBlobMailRegistryStore", () => {
     const serviceClient = new FakeBlobServiceClient()
     const store = new AzureBlobMailRegistryStore(serviceClient as never, "mailroom", "registry/mailroom.json", "ouro.bot")
 
-    const first = await store.ensureMailbox({ agentId: "slugger", ownerEmail: "ari@mendelow.me", source: "hey" })
+    const first = await store.ensureMailbox({ agentId: "slugger", ownerEmail: "owner@example.test", source: "hey" })
     const oldMailboxKey = first.registry.mailboxes[0]!.keyId
     const oldSourceKey = first.registry.sourceGrants[0]!.keyId
     const rotated = await store.rotateMailboxKeys({
       agentId: "slugger",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
       source: "hey",
       rotateMailbox: true,
       rotateSourceGrant: true,

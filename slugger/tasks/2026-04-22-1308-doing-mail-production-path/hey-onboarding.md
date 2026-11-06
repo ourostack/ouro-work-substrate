@@ -43,14 +43,14 @@ After login succeeds, Slugger should continue the same delegated source workflow
 1. Navigate to HEY Settings / Export Data.
 2. Request/download the full mailbox export.
 3. Report the downloaded MBOX path.
-4. Import the MBOX as Ari's delegated HEY source.
-5. Configure future forwarding to `me.mendelow.ari.slugger@ouro.bot`.
+4. Import the MBOX as Alex's delegated HEY source.
+5. Configure future forwarding to `test.example.owner.slugger@ouro.bot`.
 6. Verify forwarded mail arrives as delegated source mail, never native Slugger mail.
 
 ## Guardrails
 
 - Do not ask for HEY credentials in chat.
-- Do not forward Ari's mailbox to `slugger@ouro.bot`.
+- Do not forward Alex's mailbox to `slugger@ouro.bot`.
 - If login triggers MFA/CAPTCHA, ask the human to complete it in the browser and then resume.
 - If export download is blocked by browser permissions or file picker state, record the exact UI state and ask for only that human action.
 - If forwarding confirmation sends a challenge email, confirm it through the delegated-source flow and preserve owner/source provenance.
