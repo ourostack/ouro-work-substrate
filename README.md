@@ -1,6 +1,6 @@
 <!-- ourostack:brand:start -->
 <p align="center">
-  <a href="https://github.com/ourostack"><img src="https://raw.githubusercontent.com/ourostack/.github/main/brand/ouro.png" alt="Ourostack" width="96" height="96"></a>
+  <a href="https://github.com/ourostack"><img src="https://raw.githubusercontent.com/ourostack/.github/main/brand/headers/ouro-work.webp" alt="Ouro with a work badge and an envelope outside a small stone post office with post boxes and a round vault door" width="100%"></a>
 </p>
 <!-- ourostack:brand:end -->
 
