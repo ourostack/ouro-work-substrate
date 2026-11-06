@@ -9,7 +9,7 @@ import {
   type MailAuthenticationState,
   type MailAuthenticationSummary,
   type PrivateMailEnvelope,
-} from "@ouro/work-protocol"
+} from "@ouro.bot/work-protocol"
 import { ingestRawMailToStore, type MailroomStore } from "./store"
 import { logEvent } from "./log"
 import type { MailroomRegistryProvider } from "./registry"

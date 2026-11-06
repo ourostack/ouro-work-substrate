@@ -8,7 +8,7 @@ import {
   type AgentTripLedgerRecord,
   type EncryptedPayload,
   type TripLedgerRegistry,
-} from "@ouro/work-protocol"
+} from "@ouro.bot/work-protocol"
 
 export interface EnsureLedgerInput {
   agentId: string

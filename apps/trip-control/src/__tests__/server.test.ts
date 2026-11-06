@@ -2,7 +2,7 @@ import * as fs from "node:fs"
 import * as os from "node:os"
 import * as path from "node:path"
 import { afterEach, describe, expect, it } from "vitest"
-import { encryptTripRecord, generateTripKeyPair, type TripRecord } from "@ouro/work-protocol"
+import { encryptTripRecord, generateTripKeyPair, type TripRecord } from "@ouro.bot/work-protocol"
 import { FileTripLedgerStore } from "../store"
 import { createTripControlServer, startTripControlServer } from "../server"
 

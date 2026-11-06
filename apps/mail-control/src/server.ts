@@ -1,6 +1,6 @@
 import * as http from "node:http"
 import * as fs from "node:fs"
-import { normalizeMailAddress, parseAcsEmailDeliveryReportEvent, type MailOutboundDeliveryEvent } from "@ouro/work-protocol"
+import { normalizeMailAddress, parseAcsEmailDeliveryReportEvent, type MailOutboundDeliveryEvent } from "@ouro.bot/work-protocol"
 import type { MailRegistryStore } from "./store"
 import { logEvent } from "./log"
 

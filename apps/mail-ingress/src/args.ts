@@ -1,5 +1,5 @@
 import * as fs from "node:fs"
-import type { MailroomRegistry } from "@ouro/work-protocol"
+import type { MailroomRegistry } from "@ouro.bot/work-protocol"
 
 export interface MailIngressArgs {
   registryPath?: string

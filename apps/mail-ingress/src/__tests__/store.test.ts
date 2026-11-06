@@ -2,7 +2,7 @@ import * as fs from "node:fs"
 import * as os from "node:os"
 import * as path from "node:path"
 import { describe, expect, it } from "vitest"
-import { decryptMailPayload, decryptStoredMailMessage, ensureMailboxRegistry } from "@ouro/work-protocol"
+import { decryptMailPayload, decryptStoredMailMessage, ensureMailboxRegistry } from "@ouro.bot/work-protocol"
 import { FileMailroomStore, ingestRawMailToStore } from "../store"
 import { parsePrivateMailEnvelope } from "../server"
 

@@ -1,7 +1,7 @@
 import * as fs from "node:fs"
 import * as path from "node:path"
 import { BlobServiceClient, type BlockBlobClient } from "@azure/storage-blob"
-import { ensurePublicMailboxRegistry, rotatePublicMailboxRegistryKeys, type MailroomPublicEnsureResult, type MailroomPublicRotateResult, type MailroomRegistry } from "@ouro/work-protocol"
+import { ensurePublicMailboxRegistry, rotatePublicMailboxRegistryKeys, type MailroomPublicEnsureResult, type MailroomPublicRotateResult, type MailroomRegistry } from "@ouro.bot/work-protocol"
 
 export interface EnsureMailboxInput {
   agentId: string

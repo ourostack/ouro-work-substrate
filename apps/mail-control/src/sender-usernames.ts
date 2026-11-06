@@ -1,5 +1,5 @@
 import { DefaultAzureCredential } from "@azure/identity"
-import { safeAddressPart } from "@ouro/work-protocol"
+import { safeAddressPart } from "@ouro.bot/work-protocol"
 import { logEvent } from "./log"
 
 interface AccessToken {

@@ -12,6 +12,6 @@
     "@azure/storage-blob": "^12.33.0",
     "mailparser": "^3.9.11",
     "smtp-server": "^3.19.1",
-    "@ouro/work-protocol": "0.1.0"
+    "@ouro.bot/work-protocol": "0.1.0-alpha.1"
   }
 }

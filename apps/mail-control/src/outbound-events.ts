@@ -4,7 +4,7 @@ import {
   type MailOutboundDeliveryEvent,
   type MailOutboundRecord,
   type MailOutboundStatus,
-} from "@ouro/work-protocol"
+} from "@ouro.bot/work-protocol"
 import { logEvent } from "./log"
 
 export interface OutboundEventRecordResult {

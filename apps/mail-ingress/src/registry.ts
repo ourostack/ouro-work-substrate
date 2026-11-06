@@ -1,6 +1,6 @@
 import * as fs from "node:fs"
 import { BlobServiceClient } from "@azure/storage-blob"
-import type { MailroomRegistry } from "@ouro/work-protocol"
+import type { MailroomRegistry } from "@ouro.bot/work-protocol"
 import { logEvent } from "./log"
 
 export interface MailroomRegistryProvider {

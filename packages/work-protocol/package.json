@@ -1,11 +1,32 @@
 {
-  "name": "@ouro/work-protocol",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@ouro.bot/work-protocol",
+  "version": "0.1.0-alpha.1",
+  "description": "The shared mail-provenance and trip contracts between the Ouro harness and the hosted work substrate.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ourostack/ouro-work-substrate.git",
+    "directory": "packages/work-protocol"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./contracts/mail-provenance.v1.json": "./contracts/mail-provenance.v1.json"
+  },
+  "files": [
+    "dist/",
+    "!dist/**/__tests__/",
+    "contracts/",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json"
   }
 }
-
