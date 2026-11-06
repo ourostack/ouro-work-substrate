@@ -181,7 +181,7 @@ That rebuilds hosted message-index blobs in place without reimporting mail and i
 For Slugger, the expected public addresses are:
 
 - Native: `slugger@ouro.bot`.
-- HEY delegated alias: `me.mendelow.ari.slugger@ouro.bot`.
+- HEY delegated alias: `test.example.owner.slugger@ouro.bot`.
 
 ## Mail Recovery
 

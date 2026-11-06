@@ -41,14 +41,14 @@ Status: complete and continuously enforced.
 
 Build and push images to ACR, then deploy `infra/azure/main.bicep` into an Azure resource group with the manual **Deploy Azure** workflow. The proof should use external TCP `2525` first and verify:
 
-- Mail Control can create `slugger@ouro.bot` and `me.mendelow.ari.slugger@ouro.bot` in the Blob-backed public registry.
+- Mail Control can create `slugger@ouro.bot` and `test.example.owner.slugger@ouro.bot` in the Blob-backed public registry.
 - SMTP recipient rejection for unknown recipients.
 - Accepted mail lands in Azure Blob Storage encrypted.
 - Slugger can decrypt through vault-held private keys.
 - Health endpoints are reachable.
 - Vault control rejects unauthenticated and non-`ouro.bot` account requests.
 
-Status: complete. The live proof verified native `slugger@ouro.bot` mail to Screener, delegated `me.mendelow.ari.slugger@ouro.bot` mail to Imbox, encrypted Blob storage, and decryption with the one-time private key returned by Mail Control.
+Status: complete. The live proof verified native `slugger@ouro.bot` mail to Screener, delegated `test.example.owner.slugger@ouro.bot` mail to Imbox, encrypted Blob storage, and decryption with the one-time private key returned by Mail Control.
 
 ### Phase 3: Production Ingress Decision
 

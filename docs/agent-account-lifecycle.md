@@ -15,7 +15,7 @@ The desired flow:
 3. The CLI creates or repairs the agent vault account.
 4. The CLI stores runtime credentials in the agent vault.
 5. The CLI ensures the native mailbox, such as `slugger@ouro.bot`.
-6. If a family member delegates mail, the CLI ensures a source grant alias such as `me.mendelow.ari.slugger@ouro.bot`.
+6. If a family member delegates mail, the CLI ensures a source grant alias such as `test.example.owner.slugger@ouro.bot`.
 7. Mail Control returns newly generated private mail keys exactly once.
 8. The CLI stores those keys in the owning agent vault before declaring setup ready.
 9. Hosted Mail ingress sees only the public registry and stores encrypted messages.
@@ -35,9 +35,9 @@ For Slugger right now:
 
 - Vault: `slugger@ouro.bot`.
 - Native mail: `slugger@ouro.bot`.
-- Ari delegated HEY alias: `me.mendelow.ari.slugger@ouro.bot`.
+- Alex delegated HEY alias: `test.example.owner.slugger@ouro.bot`.
 - HEY source: `hey`.
-- Owner email: `ari@mendelow.me`.
+- Owner email: `owner@example.test`.
 
 ## Protections
 

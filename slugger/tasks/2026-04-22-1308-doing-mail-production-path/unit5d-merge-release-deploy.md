@@ -89,6 +89,6 @@ Health checks:
 This evidence proves the Unit 5 code/docs/coverage/release/deploy lane. It does not claim:
 
 - Slugger has completed the HEY browser login/export/forwarding-confirmation flow.
-- Ari's historical HEY export has been imported.
-- Future HEY forwarding has been observed at `me.mendelow.ari.slugger@ouro.bot`.
+- Alex's historical HEY export has been imported.
+- Future HEY forwarding has been observed at `test.example.owner.slugger@ouro.bot`.
 - Native autonomous outbound mail is production-ready.

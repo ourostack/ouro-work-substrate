@@ -78,14 +78,14 @@ The important production correction from this unit: the live Porkbun read-only p
 Command:
 
 ```sh
-npm run ouro -- dns plan --agent slugger --binding /Users/arimendelow/Projects/ouro-work-substrate/infra/dns/ouro.bot.binding.json --output /Users/arimendelow/Projects/ouro-work-substrate/slugger/tasks/2026-04-22-1308-doing-mail-production-path/unit3c-live-dns-plan.json
+npm run ouro -- dns plan --agent slugger --binding /Users/maintainer/Projects/ouro-work-substrate/infra/dns/ouro.bot.binding.json --output /Users/maintainer/Projects/ouro-work-substrate/slugger/tasks/2026-04-22-1308-doing-mail-production-path/unit3c-live-dns-plan.json
 ```
 
 Result:
 
 - Succeeded without `--yes`; no DNS mutation occurred.
 - Used the real Slugger vault item:
-  - `vault:slugger:ops/registrars/porkbun/accounts/ari@mendelow.me`.
+  - `vault:slugger:ops/registrars/porkbun/accounts/owner@example.test`.
 - Wrote `unit3c-live-dns-plan.json`.
 - No `apiKey`, `secretApiKey`, `X-API-Key`, `X-Secret-API-Key`, or private-key material appeared in the JSON/log artifact.
 - Planned changes after provider normalization:

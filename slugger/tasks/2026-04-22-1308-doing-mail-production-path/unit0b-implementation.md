@@ -2,7 +2,7 @@
 
 Harness worktree:
 
-- path: `/Users/arimendelow/Projects/_worktrees/slugger-vault-item-surface`
+- path: `/Users/maintainer/Projects/_worktrees/slugger-vault-item-surface`
 - branch: `slugger/vault-item-surface`
 - commit: `2fb109a3b5592190f2a51173e331b704ad3a2651`
 

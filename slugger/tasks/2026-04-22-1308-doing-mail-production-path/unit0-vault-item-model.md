@@ -13,7 +13,7 @@ The primitive is:
 
 ```yaml
 vault item / credential:
-  item: ops/porkbun/ari@mendelow.me
+  item: ops/porkbun/owner@example.test
   secrets: hidden
   public fields: optional
   notes: "Freeform human/agent context, recovery hints, warnings, and non-assumptions."
@@ -64,7 +64,7 @@ Example:
 dns workflow:
   domain: ouro.bot
   driver: porkbun
-  credential item: ops/porkbun/ari@mendelow.me
+  credential item: ops/porkbun/owner@example.test
 ```
 
 That does not make the vault item a DNS credential. It only says this workflow plans to use that vault item.

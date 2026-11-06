@@ -9,7 +9,7 @@ This is a production gate for later DNS/mail work: workflow code may reference o
 ## Harness Branch
 
 - Repo: `ourostack/ouroboros`
-- Worktree: `/Users/arimendelow/Projects/_worktrees/slugger-vault-item-surface`
+- Worktree: `/Users/maintainer/Projects/_worktrees/slugger-vault-item-surface`
 - Branch: `slugger/vault-item-surface`
 - Head: `4dec8d50c9f5c05986352fb48616b9ceb229e563`
 - Version prepared for publish: `0.1.0-alpha.466`
@@ -58,16 +58,16 @@ Harness `.github/workflows/coverage.yml` is the release lane:
   - `0.1.0-alpha.466`
 - Local `ouro -v`: `0.1.0-alpha.466`
 - Installed `ouro help vault` includes `item` in the vault subcommand list.
-- Installed `ouro vault item status --agent slugger --item ops/registrars/porkbun/accounts/ari@mendelow.me` reported:
+- Installed `ouro vault item status --agent slugger --item ops/registrars/porkbun/accounts/owner@example.test` reported:
   - item present,
-  - username `ari@mendelow.me`,
+  - username `owner@example.test`,
   - notes present,
   - secret values not printed.
-- Installed `ouro vault item list --agent slugger --prefix ops/registrars/porkbun` listed `ops/registrars/porkbun/accounts/ari@mendelow.me` without printing secrets.
-- Installed `ouro vault ops porkbun status --agent slugger --account ari@mendelow.me` reported:
+- Installed `ouro vault item list --agent slugger --prefix ops/registrars/porkbun` listed `ops/registrars/porkbun/accounts/owner@example.test` without printing secrets.
+- Installed `ouro vault ops porkbun status --agent slugger --account owner@example.test` reported:
   - deprecated compatibility alias,
   - ordinary vault item path,
-  - account `ari@mendelow.me`,
+  - account `owner@example.test`,
   - notes present,
   - secret values not printed.
 

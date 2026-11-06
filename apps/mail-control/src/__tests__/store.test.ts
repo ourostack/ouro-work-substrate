@@ -11,17 +11,17 @@ describe("mail registry store", () => {
 
     const first = await store.ensureMailbox({
       agentId: "slugger",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
       source: "hey",
     })
     const second = await store.ensureMailbox({
       agentId: "slugger",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
       source: "hey",
     })
 
     expect(first.mailboxAddress).toBe("slugger@ouro.bot")
-    expect(first.sourceAlias).toBe("me.mendelow.ari.slugger@ouro.bot")
+    expect(first.sourceAlias).toBe("test.example.owner.slugger@ouro.bot")
     expect(Object.keys(first.generatedPrivateKeys)).toHaveLength(2)
     expect(second.generatedPrivateKeys).toEqual({})
     expect(second.addedMailbox).toBe(false)
@@ -37,14 +37,14 @@ describe("mail registry store", () => {
 
     const first = await store.ensureMailbox({
       agentId: "slugger",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
       source: "hey",
     })
     const oldMailboxKey = first.registry.mailboxes[0]!.keyId
     const oldSourceKey = first.registry.sourceGrants[0]!.keyId
     const rotated = await store.rotateMailboxKeys({
       agentId: "slugger",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
       source: "hey",
       rotateMailbox: true,
       rotateSourceGrant: true,

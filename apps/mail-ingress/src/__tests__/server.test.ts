@@ -94,7 +94,7 @@ function openSmtpSocket(port: number, initialExpect: RegExp = /^220/m): Promise<
 
 describe("mail ingress server", () => {
   it("serves a compact health endpoint", async () => {
-    const registry = ensureMailboxRegistry({ agentId: "slugger", ownerEmail: "ari@mendelow.me" }).registry
+    const registry = ensureMailboxRegistry({ agentId: "slugger", ownerEmail: "owner@example.test" }).registry
     const server = createMailIngressHealthServer(new StaticRegistryProvider(registry))
     const port = await listen(server)
     try {
@@ -148,14 +148,14 @@ describe("mail ingress server", () => {
 
   it("parses mail into a private envelope with untrusted content warning", async () => {
     const parsed = await parsePrivateMailEnvelope(Buffer.from([
-      "From: Ari <ari@mendelow.me>",
+      "From: Alex <owner@example.test>",
       "To: slugger@ouro.bot",
       "Subject: Plans",
       "",
       "Please check this itinerary.",
     ].join("\r\n"), "utf-8"))
 
-    expect(parsed.privateEnvelope.from).toEqual(["ari@mendelow.me"])
+    expect(parsed.privateEnvelope.from).toEqual(["owner@example.test"])
     expect(parsed.privateEnvelope.subject).toBe("Plans")
     expect(parsed.privateEnvelope.snippet).toBe("Please check this itinerary.")
     expect(parsed.privateEnvelope.untrustedContentWarning).toContain("untrusted external data")
@@ -224,13 +224,13 @@ describe("mail ingress server", () => {
     try {
       await smtpExchange(port, [
         { send: "EHLO localhost\r\n", expect: /^250/m },
-        { send: "MAIL FROM:<ari@mendelow.me>\r\n", expect: /^250/m },
+        { send: "MAIL FROM:<owner@example.test>\r\n", expect: /^250/m },
         { send: "RCPT TO:<slugger@ouro.bot>\r\n", expect: /^250/m },
         { send: "DATA\r\n", expect: /^354/m },
         {
           send: [
-            "Authentication-Results: mx.ouro.bot; spf=pass smtp.mailfrom=mendelow.me",
-            "From: Ari <ari@mendelow.me>",
+            "Authentication-Results: mx.ouro.bot; spf=pass smtp.mailfrom=example.test",
+            "From: Alex <owner@example.test>",
             "To: Slugger <slugger@ouro.bot>",
             "Subject: Hello",
             "",
@@ -284,7 +284,7 @@ describe("mail ingress server", () => {
     try {
       const transcript = await smtpExchange(port, [
         { send: "EHLO localhost\r\n", expect: /^250/m },
-        { send: "MAIL FROM:<ari@mendelow.me> SIZE=65\r\n", expect: /^[25]\d\d/m },
+        { send: "MAIL FROM:<owner@example.test> SIZE=65\r\n", expect: /^[25]\d\d/m },
         { send: "QUIT\r\n", expect: /^221/m },
       ])
       expect(transcript).toMatch(/^552/m)
@@ -305,7 +305,7 @@ describe("mail ingress server", () => {
     try {
       const transcript = await smtpExchange(port, [
         { send: "EHLO localhost\r\n", expect: /^250/m },
-        { send: "MAIL FROM:<ari@mendelow.me>\r\n", expect: /^250/m },
+        { send: "MAIL FROM:<owner@example.test>\r\n", expect: /^250/m },
         { send: "RCPT TO:<slugger@ouro.bot>\r\n", expect: /^250/m },
         { send: "RCPT TO:<slugger@ouro.bot>\r\n", expect: /^250/m },
         { send: "RCPT TO:<slugger@ouro.bot>\r\n", expect: /^[245]\d\d/m },
@@ -395,7 +395,7 @@ describe("mail ingress server", () => {
     try {
       const transcript = await smtpExchange(port, [
         { send: "EHLO localhost\r\n", expect: /^250/m },
-        { send: "MAIL FROM:<ari@mendelow.me>\r\n", expect: /^250/m },
+        { send: "MAIL FROM:<owner@example.test>\r\n", expect: /^250/m },
         { send: "RCPT TO:<nobody@ouro.bot>\r\n", expect: /^550/m },
         { send: "QUIT\r\n", expect: /^221/m },
       ])
@@ -419,7 +419,7 @@ describe("mail ingress server", () => {
     try {
       const transcript = await smtpExchange(rcptPort, [
         { send: "EHLO localhost\r\n", expect: /^250/m },
-        { send: "MAIL FROM:<ari@mendelow.me>\r\n", expect: /^250/m },
+        { send: "MAIL FROM:<owner@example.test>\r\n", expect: /^250/m },
         { send: "RCPT TO:<slugger@ouro.bot>\r\n", expect: /^[45]\d\d/m },
         { send: "QUIT\r\n", expect: /^221/m },
       ])
@@ -441,7 +441,7 @@ describe("mail ingress server", () => {
     try {
       const transcript = await smtpExchange(errorPort, [
         { send: "EHLO localhost\r\n", expect: /^250/m },
-        { send: "MAIL FROM:<ari@mendelow.me>\r\n", expect: /^250/m },
+        { send: "MAIL FROM:<owner@example.test>\r\n", expect: /^250/m },
         { send: "RCPT TO:<slugger@ouro.bot>\r\n", expect: /^[45]\d\d/m },
         { send: "QUIT\r\n", expect: /^221/m },
       ])
@@ -490,10 +490,10 @@ describe("mail ingress server", () => {
     try {
       const transcript = await smtpExchange(port, [
         { send: "EHLO localhost\r\n", expect: /^250/m },
-        { send: "MAIL FROM:<ari@mendelow.me>\r\n", expect: /^250/m },
+        { send: "MAIL FROM:<owner@example.test>\r\n", expect: /^250/m },
         { send: "RCPT TO:<slugger@ouro.bot>\r\n", expect: /^250/m },
         { send: "DATA\r\n", expect: /^354/m },
-        { send: "From: ari@mendelow.me\r\nTo: slugger@ouro.bot\r\nSubject: Hi\r\n\r\nHi\r\n.\r\n", expect: /^[45]\d\d/m },
+        { send: "From: owner@example.test\r\nTo: slugger@ouro.bot\r\nSubject: Hi\r\n\r\nHi\r\n.\r\n", expect: /^[45]\d\d/m },
         { send: "QUIT\r\n", expect: /^221/m },
       ])
       expect(transcript).toContain("temporary mail ingestion failure")
@@ -530,10 +530,10 @@ describe("mail ingress server", () => {
     try {
       const transcript = await smtpExchange(port, [
         { send: "EHLO localhost\r\n", expect: /^250/m },
-        { send: "MAIL FROM:<ari@mendelow.me>\r\n", expect: /^250/m },
+        { send: "MAIL FROM:<owner@example.test>\r\n", expect: /^250/m },
         { send: "RCPT TO:<slugger@ouro.bot>\r\n", expect: /^250/m },
         { send: "DATA\r\n", expect: /^354/m },
-        { send: `From: ari@mendelow.me\r\nTo: slugger@ouro.bot\r\nSubject: Hi\r\n\r\n${leakedBody}\r\n.\r\n`, expect: /^[45]\d\d/m },
+        { send: `From: owner@example.test\r\nTo: slugger@ouro.bot\r\nSubject: Hi\r\n\r\n${leakedBody}\r\n.\r\n`, expect: /^[45]\d\d/m },
         { send: "QUIT\r\n", expect: /^221/m },
       ])
       expect(transcript).toMatch(/^451/m)

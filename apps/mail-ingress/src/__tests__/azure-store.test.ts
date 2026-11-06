@@ -58,9 +58,9 @@ describe("AzureBlobMailroomStore", () => {
     const store = new AzureBlobMailroomStore(serviceClient as never, "mailroom")
     const ensured = ensureMailboxRegistry({ agentId: "slugger" })
     const resolved = resolveMailAddress(ensured.registry, "slugger@ouro.bot")!
-    const rawMime = Buffer.from("From: ari@mendelow.me\r\nTo: slugger@ouro.bot\r\nSubject: Hi\r\n\r\nHello", "utf-8")
+    const rawMime = Buffer.from("From: owner@example.test\r\nTo: slugger@ouro.bot\r\nSubject: Hi\r\n\r\nHello", "utf-8")
     const privateEnvelope = {
-      from: ["ari@mendelow.me"],
+      from: ["owner@example.test"],
       to: ["slugger@ouro.bot"],
       cc: [],
       subject: "Hi",
@@ -72,7 +72,7 @@ describe("AzureBlobMailroomStore", () => {
 
     const first = await store.putRawMessage({
       resolved,
-      envelope: { mailFrom: "ari@mendelow.me", rcptTo: ["slugger@ouro.bot"] },
+      envelope: { mailFrom: "owner@example.test", rcptTo: ["slugger@ouro.bot"] },
       rawMime,
       privateEnvelope,
       classification: { placement: "screener", trustReason: "new sender", candidate: true },
@@ -93,7 +93,7 @@ describe("AzureBlobMailroomStore", () => {
     }
     const healed = await store.putRawMessage({
       resolved,
-      envelope: { mailFrom: "ari@mendelow.me", rcptTo: ["slugger@ouro.bot"] },
+      envelope: { mailFrom: "owner@example.test", rcptTo: ["slugger@ouro.bot"] },
       rawMime,
       privateEnvelope,
       classification: { placement: "screener", trustReason: "new sender", candidate: true },
@@ -122,15 +122,15 @@ describe("AzureBlobMailroomStore", () => {
   it("stores non-candidate delegated mail without writing screener candidates", async () => {
     const serviceClient = new FakeBlobServiceClient()
     const store = new AzureBlobMailroomStore(serviceClient as never, "mailroom")
-    const ensured = ensureMailboxRegistry({ agentId: "slugger", ownerEmail: "ari@mendelow.me", source: "hey" })
+    const ensured = ensureMailboxRegistry({ agentId: "slugger", ownerEmail: "owner@example.test", source: "hey" })
     const resolved = resolveMailAddress(ensured.registry, ensured.sourceAlias!)!
 
     await store.putRawMessage({
       resolved,
-      envelope: { mailFrom: "ari@mendelow.me", rcptTo: [ensured.sourceAlias!] },
+      envelope: { mailFrom: "owner@example.test", rcptTo: [ensured.sourceAlias!] },
       rawMime: Buffer.from("raw", "utf-8"),
       privateEnvelope: {
-        from: ["ari@mendelow.me"],
+        from: ["owner@example.test"],
         to: [ensured.sourceAlias!],
         cc: [],
         subject: "Delegated",

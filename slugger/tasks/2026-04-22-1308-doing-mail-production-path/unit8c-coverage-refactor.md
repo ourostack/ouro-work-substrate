@@ -4,7 +4,7 @@ Completed: 2026-04-23
 
 ## Harness Commit
 
-- Repo: `/Users/arimendelow/Projects/_worktrees/slugger-delegated-hey-harness`
+- Repo: `/Users/maintainer/Projects/_worktrees/slugger-delegated-hey-harness`
 - Branch: `slugger/native-mail-autonomy`
 - Commit: `356fc240116260ef440efb4f559ba13410207242`
 - Pushed: yes
@@ -45,7 +45,7 @@ Completed: 2026-04-23
 Generated with:
 
 ```bash
-UNIT8C_ARTIFACTS_DIR=/Users/arimendelow/Projects/_worktrees/slugger-delegated-hey-substrate/slugger/tasks/2026-04-22-1308-doing-mail-production-path OUTLOOK_VISUAL_URL=http://127.0.0.1:6878 node /Users/arimendelow/Projects/_worktrees/slugger-delegated-hey-substrate/slugger/tasks/2026-04-22-1308-doing-mail-production-path/unit8c-outlook-visual.mjs
+UNIT8C_ARTIFACTS_DIR=/Users/maintainer/Projects/_worktrees/slugger-delegated-hey-substrate/slugger/tasks/2026-04-22-1308-doing-mail-production-path OUTLOOK_VISUAL_URL=http://127.0.0.1:6878 node /Users/maintainer/Projects/_worktrees/slugger-delegated-hey-substrate/slugger/tasks/2026-04-22-1308-doing-mail-production-path/unit8c-outlook-visual.mjs
 ```
 
 The script uses an artifact-local mocked API over the real Outlook UI bundle, asserts body-safe native/delegated audit text, and checks `document.documentElement.scrollWidth <= window.innerWidth + 1` at desktop and mobile widths.

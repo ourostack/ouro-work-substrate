@@ -5,7 +5,7 @@
 Add failing tests that force the product distinction between:
 
 - Slugger's native agent mailbox, and
-- Ari's delegated human mailbox source.
+- Alex's delegated human mailbox source.
 
 The tests intentionally use product terms rather than low-level implementation terms so future work cannot satisfy the contract by merely carrying `native` / `delegated` as ambiguous flags.
 
@@ -54,7 +54,7 @@ Intentional failures:
 ## Harness Branch
 
 - Repo: `ourostack/ouroboros`
-- Worktree: `/Users/arimendelow/Projects/_worktrees/slugger-mail-two-lane-contract`
+- Worktree: `/Users/maintainer/Projects/_worktrees/slugger-mail-two-lane-contract`
 - Branch: `slugger/mail-two-lane-contract`
 - Base: `origin/main` at `c4c784edc1f209504c2d991f23d9394132cf5f69`
 

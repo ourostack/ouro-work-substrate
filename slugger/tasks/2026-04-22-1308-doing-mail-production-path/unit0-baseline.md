@@ -6,18 +6,18 @@ Captured: 2026-04-22 17:56 PDT
 
 ### Work Substrate
 
-- Path: `/Users/arimendelow/Projects/ouro-work-substrate`
+- Path: `/Users/maintainer/Projects/ouro-work-substrate`
 - Branch: `slugger/mail-production-shape`
 - Head: `d016d88c77d0ac7d2a755ae8bfbd0966cb3ca7c1`
 - Remote: `git@github.com:ourostack/ouro-work-substrate.git`
 - Status at capture: clean, tracking `origin/slugger/mail-production-shape`
-- Task docs: `/Users/arimendelow/Projects/ouro-work-substrate/slugger/tasks/2026-04-22-1308-*.md`
+- Task docs: `/Users/maintainer/Projects/ouro-work-substrate/slugger/tasks/2026-04-22-1308-*.md`
 
 ### Ouroboros Agent Harness
 
-- Primary checkout: `/Users/arimendelow/Projects/ouroboros-agent-harness`
+- Primary checkout: `/Users/maintainer/Projects/ouroboros-agent-harness`
 - Primary checkout status at capture: clean `main`, behind `origin/main` by #586.
-- Task worktree: `/Users/arimendelow/Projects/_worktrees/slugger-vault-item-surface`
+- Task worktree: `/Users/maintainer/Projects/_worktrees/slugger-vault-item-surface`
 - Task branch: `slugger/vault-item-surface`
 - Task branch base: `origin/main`
 - Head: `3c62b8de2c4d66472159ec09fe8efacba753525f`
@@ -181,14 +181,14 @@ Ouroboros Agent Harness:
   - outward: `openai-codex / gpt-5.4`
   - inner: `minimax / MiniMax-M2.5`
 
-`ouro vault ops porkbun status --agent slugger --account ari@mendelow.me` reported:
+`ouro vault ops porkbun status --agent slugger --account owner@example.test` reported:
 
 ```text
 agent: slugger
 ops credentials: Porkbun
-item: vault:slugger:ops/registrars/porkbun/accounts/ari@mendelow.me
+item: vault:slugger:ops/registrars/porkbun/accounts/owner@example.test
 status: present
-account: ari@mendelow.me
+account: owner@example.test
 secret values were not printed
 ```
 
@@ -202,18 +202,18 @@ Interpretation:
 
 Reviewed the foundation docs named in the planning artifact:
 
-- `/Users/arimendelow/AgentBundles/slugger.ouro/tasks/one-shots/2026-04-20-2100-email-access-research-proposal/proposal.md`
-- `/Users/arimendelow/AgentBundles/slugger.ouro/tasks/one-shots/2026-04-20-2319-proposal-agent-native-mail.md`
-- `/Users/arimendelow/AgentBundles/slugger.ouro/tasks/one-shots/2026-04-21-1434-ideation-agent-mail-user-stories.md`
-- `/Users/arimendelow/AgentBundles/slugger.ouro/tasks/one-shots/2026-04-21-1447-doing-agent-mail-whole-moon.md`
-- `/Users/arimendelow/AgentBundles/slugger.ouro/tasks/one-shots/2026-04-21-1447-doing-agent-mail-whole-moon/unit16-azure-proof.md`
+- `/Users/maintainer/AgentBundles/slugger.ouro/tasks/one-shots/2026-04-20-2100-email-access-research-proposal/proposal.md`
+- `/Users/maintainer/AgentBundles/slugger.ouro/tasks/one-shots/2026-04-20-2319-proposal-agent-native-mail.md`
+- `/Users/maintainer/AgentBundles/slugger.ouro/tasks/one-shots/2026-04-21-1434-ideation-agent-mail-user-stories.md`
+- `/Users/maintainer/AgentBundles/slugger.ouro/tasks/one-shots/2026-04-21-1447-doing-agent-mail-whole-moon.md`
+- `/Users/maintainer/AgentBundles/slugger.ouro/tasks/one-shots/2026-04-21-1447-doing-agent-mail-whole-moon/unit16-azure-proof.md`
 
 Carry-forward facts:
 
 - HEY has no normal programmatic fetch path like IMAP; MBOX export is the historical/backfill path and forwarding is useful but not a sole critical-mail source of truth.
 - Agent-native `@ouro.bot` mail and delegated human mailbox copies are two stories that share Mailroom substrate but not authority semantics.
 - Mail is a sense. Bounded tools inspect mail; raw inbox bodies do not become unfiltered prompt text.
-- Native agent mail is Slugger's correspondence. Delegated HEY mail is Ari's mailbox content copied into Slugger's work substrate under owner/source provenance.
+- Native agent mail is Slugger's correspondence. Delegated HEY mail is Alex's mailbox content copied into Slugger's work substrate under owner/source provenance.
 - Unknown sender to a known recipient is accepted, stored, and screened. Unknown recipient is rejected during SMTP.
 - Discard means retained recovery drawer, not bounce/delete/silent loss.
 - Family can grant delegated mailbox access and approve durable mail policy; friend can correspond with the agent through native mail but cannot delegate a human mailbox.

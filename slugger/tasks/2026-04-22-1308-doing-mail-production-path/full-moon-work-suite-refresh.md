@@ -4,7 +4,7 @@ Created during the post-Unit-0c reset, after the vault item ontology was correct
 
 ## Spark
 
-Ouro Work Mail should be ready for prime time, not merely demo-ready. Slugger needs a real native mail sense with autonomous receive and policy-governed send, while Ari's HEY mailbox is a delegated executive-assistant source with full backfill plus future forwarding. The agent should never have to squint to know whether it is looking at its own correspondence or Ari's delegated mailbox.
+Ouro Work Mail should be ready for prime time, not merely demo-ready. Slugger needs a real native mail sense with autonomous receive and policy-governed send, while Alex's HEY mailbox is a delegated executive-assistant source with full backfill plus future forwarding. The agent should never have to squint to know whether it is looking at its own correspondence or Alex's delegated mailbox.
 
 The emotional bar matters: this is future home infrastructure. It should be calm, recoverable, well-documented, and honest enough that a future agent can continue without repeating this churn.
 
@@ -45,7 +45,7 @@ The credential shape is now stable:
 - "Mail works" can lie if it means proof port `2525`; MX cannot encode that port. Prime time requires external port 25 or a dedicated mail edge.
 - "Setup works" can lie if the harness creates local keys while hosted ingress encrypts to a different hosted public key. Production setup must make Mail Control the truth and store returned private keys immediately.
 - "Sent" can lie if it only means provider submission. Outbound records must model submitted, accepted, delivered, bounced, suppressed, quarantined/spam-filtered, failed, and reconciled outcomes.
-- "Forwarding works" can lie if HEY forwards to `slugger@ouro.bot`; that proves delivery while destroying delegated-source provenance. HEY must target `me.mendelow.ari.slugger@ouro.bot`.
+- "Forwarding works" can lie if HEY forwards to `slugger@ouro.bot`; that proves delivery while destroying delegated-source provenance. HEY must target `test.example.owner.slugger@ouro.bot`.
 - "Deploys automatically" can lie if packaging/release gates are separate. Harness npm release and hosted Azure deploy are different lanes and both need evidence.
 - "Shared protocol" can lie if the harness keeps a copied model. Cross-repo drift needs an explicit package or contract gate.
 
@@ -74,7 +74,7 @@ The next production slice should not jump straight into DNS cutover. The safe se
 - Do not npm-publish the whole hosted substrate as if it were the harness CLI.
 - Do not let notes become machine-readable workflow contracts.
 - Do not do HEY login/export/forwarding manually as Codex; Slugger should manage browser MCP and request human help only for MFA/auth/export/confirmation gates.
-- Do not make delegated HEY mail send as Ari in this program.
+- Do not make delegated HEY mail send as Alex in this program.
 - Do not declare production mail ready on proof-port delivery, local-only setup, provider submission without delivery events, or screenshots without live smoke.
 
 ## Open Questions

@@ -18,7 +18,7 @@ function draft(overrides: Partial<MailOutboundRecord> = {}): MailOutboundRecord 
     ownerEmail: null,
     source: null,
     from: "slugger@ouro.bot",
-    to: ["ari@mendelow.me"],
+    to: ["owner@example.test"],
     cc: [],
     bcc: [],
     subject: "Provider proof",
@@ -68,7 +68,7 @@ describe("mail outbound provider and delivery events", () => {
       eventTime: "2026-04-23T01:35:00.000Z",
       data: {
         sender: "slugger@ouro.bot",
-        recipient: "ari@mendelow.me",
+        recipient: "owner@example.test",
         messageId: "acs-operation-1",
         status: "Delivered",
         deliveryStatusDetails: { statusMessage: "250 2.0.0 queued" },
@@ -81,7 +81,7 @@ describe("mail outbound provider and delivery events", () => {
       providerEventId: "event-delivered-1",
       providerMessageId: "acs-operation-1",
       outcome: "delivered",
-      recipient: "ari@mendelow.me",
+      recipient: "owner@example.test",
       occurredAt: "2026-04-23T01:34:59.000Z",
       bodySafeSummary: expect.stringContaining("Delivered"),
     }))
@@ -117,7 +117,7 @@ describe("mail outbound provider and delivery events", () => {
       eventTime: "2026-04-23T01:35:00.000Z",
       data: {
         sender: "slugger@ouro.bot",
-        recipient: "ari@mendelow.me",
+        recipient: "owner@example.test",
         messageId: "acs-operation-1",
         status,
         deliveryStatusDetails: { statusMessage: `${status} proof` },

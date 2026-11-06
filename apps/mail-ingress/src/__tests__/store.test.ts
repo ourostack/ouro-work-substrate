@@ -11,7 +11,7 @@ describe("mail ingress store", () => {
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), "ouro-mail-store-"))
     const ensured = ensureMailboxRegistry({
       agentId: "slugger",
-      ownerEmail: "ari@mendelow.me",
+      ownerEmail: "owner@example.test",
       source: "hey",
     })
     const alias = ensured.sourceAlias!
@@ -73,13 +73,13 @@ describe("mail ingress store", () => {
   it("stores accepted native mail without authentication metadata", async () => {
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), "ouro-mail-store-"))
     const ensured = ensureMailboxRegistry({ agentId: "slugger" })
-    const raw = Buffer.from("From: ari@mendelow.me\r\nTo: slugger@ouro.bot\r\nSubject: Hi\r\n\r\nHi", "utf-8")
+    const raw = Buffer.from("From: owner@example.test\r\nTo: slugger@ouro.bot\r\nSubject: Hi\r\n\r\nHi", "utf-8")
     const parsed = await parsePrivateMailEnvelope(raw)
 
     const result = await ingestRawMailToStore({
       registry: ensured.registry,
       store: new FileMailroomStore(dir),
-      envelope: { mailFrom: "ari@mendelow.me", rcptTo: ["slugger@ouro.bot"] },
+      envelope: { mailFrom: "owner@example.test", rcptTo: ["slugger@ouro.bot"] },
       rawMime: raw,
       privateEnvelope: parsed.privateEnvelope,
     })

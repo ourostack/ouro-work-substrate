@@ -7,7 +7,7 @@ import {
   type MailOutboundRecord,
 } from "../mail"
 
-const actor = { kind: "human" as const, friendId: "ari", trustLevel: "family" as const }
+const actor = { kind: "human" as const, friendId: "alex", trustLevel: "family" as const }
 
 function policy(overrides: Partial<MailAutonomyPolicy> = {}): MailAutonomyPolicy {
   return buildNativeMailAutonomyPolicy({
@@ -15,12 +15,12 @@ function policy(overrides: Partial<MailAutonomyPolicy> = {}): MailAutonomyPolicy
     mailboxAddress: "Slugger@OURO.bot",
     enabled: true,
     killSwitch: false,
-    allowedRecipients: ["ARI@MENDELOW.ME"],
+    allowedRecipients: ["OWNER@EXAMPLE.TEST"],
     allowedDomains: ["trusted.example"],
     maxRecipientsPerMessage: 3,
     rateLimit: { maxSends: 2, windowMs: 60_000 },
     actor,
-    reason: "Ari approved low-risk autonomous native mail",
+    reason: "Alex approved low-risk autonomous native mail",
     updatedAt: "2026-04-23T00:00:00.000Z",
     ...overrides,
   })
@@ -37,7 +37,7 @@ function draft(overrides: Partial<MailOutboundRecord> = {}): MailOutboundRecord 
     ownerEmail: null,
     source: null,
     from: "slugger@ouro.bot",
-    to: ["ari@mendelow.me"],
+    to: ["owner@example.test"],
     cc: [],
     bcc: [],
     subject: "Low-risk check",
@@ -74,7 +74,7 @@ describe("native mail autonomy policy", () => {
 
     const decision = evaluateNativeMailSendPolicy({
       policy: policy(),
-      draft: draft({ to: ["Ari <ARI@MENDELOW.ME>", "ops@trusted.example"] }),
+      draft: draft({ to: ["Alex <OWNER@EXAMPLE.TEST>", "ops@trusted.example"] }),
       recentOutbound: [],
       now: new Date("2026-04-23T00:02:00.000Z"),
     })
@@ -87,7 +87,7 @@ describe("native mail autonomy policy", () => {
       evaluatedAt: "2026-04-23T00:02:00.000Z",
       remainingSendsInWindow: 1,
     }))
-    expect(decision.recipients).toEqual(["ari@mendelow.me", "ops@trusted.example"])
+    expect(decision.recipients).toEqual(["owner@example.test", "ops@trusted.example"])
 
     expect(evaluateNativeMailSendPolicy({
       policy: policy(),
@@ -164,7 +164,7 @@ describe("native mail autonomy policy", () => {
 
     expect(evaluateNativeMailSendPolicy({
       policy: { ...base, maxRecipientsPerMessage: 1 },
-      draft: draft({ to: ["ari@mendelow.me", "ops@trusted.example"] }),
+      draft: draft({ to: ["owner@example.test", "ops@trusted.example"] }),
       recentOutbound: [],
       now: new Date("2026-04-23T00:02:00.000Z"),
     })).toEqual(expect.objectContaining({
@@ -191,9 +191,9 @@ describe("native mail autonomy policy", () => {
       draft: draft({
         mailboxRole: "delegated-human-mailbox",
         sendAuthority: "delegated-human" as never,
-        ownerEmail: "ari@mendelow.me",
+        ownerEmail: "owner@example.test",
         source: "hey",
-        from: "ari@mendelow.me",
+        from: "owner@example.test",
       }),
       recentOutbound: [],
       now: new Date("2026-04-23T00:02:00.000Z"),

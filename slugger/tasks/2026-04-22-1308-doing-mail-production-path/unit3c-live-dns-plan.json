@@ -4,7 +4,7 @@
     "workflow": "dns",
     "domain": "ouro.bot",
     "driver": "porkbun",
-    "credentialItem": "ops/registrars/porkbun/accounts/ari@mendelow.me",
+    "credentialItem": "ops/registrars/porkbun/accounts/owner@example.test",
     "resources": {
       "records": [
         {

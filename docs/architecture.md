@@ -34,7 +34,7 @@ The local Ouroboros harness may keep development stores, mail readers, setup orc
 ## Trust Shape
 
 - Agents can receive mail at their native `agent@ouro.bot` address.
-- Delegated human mail enters through explicit source grants such as `me.mendelow.ari.slugger@ouro.bot`.
+- Delegated human mail enters through explicit source grants such as `test.example.owner.slugger@ouro.bot`.
 - Hosted ingress stores encrypted raw MIME and encrypted parsed private envelopes.
 - Private keys live in the owning agent vault, not in the hosted service.
 - Mail Control writes the public registry and returns newly generated private keys exactly once.
