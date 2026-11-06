@@ -14,7 +14,7 @@ The code here is intentionally small, sober, and warm. Small because private wor
 
 This repo owns the hosted pieces of the work substrate:
 
-- `packages/work-protocol`: shared records, routing helpers, encryption helpers, Screener/Imbox placement, registry logic, and machine-readable contracts consumed by the harness while the package remains private.
+- `packages/work-protocol`: shared records, routing helpers, encryption helpers, Screener/Imbox placement, registry logic, and machine-readable contracts published to npm as `@ouro.bot/work-protocol` so the harness and these services share one copy.
 - `apps/mail-ingress`: SMTP ingress plus health. It accepts registered recipients and stores encrypted mail objects.
 - `apps/mail-control`: authenticated mailbox control. It creates native agent mailboxes and delegated source grants, returning newly generated private keys exactly once.
 - `apps/vault-control`: authenticated Vaultwarden account creation.

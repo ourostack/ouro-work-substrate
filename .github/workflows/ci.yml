@@ -32,3 +32,42 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run test:coverage
+
+  publish-work-protocol:
+    needs:
+      - test
+      - coverage
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+      - name: Install latest npm (trusted publishing needs npm >=11.5.1)
+        run: npm install -g npm@latest
+      - run: npm ci
+      - run: npm run build --workspace @ouro.bot/work-protocol
+      - name: Publish @ouro.bot/work-protocol when its version is new
+        run: |
+          LOCAL=$(node -p "require('./packages/work-protocol/package.json').version")
+          if ! npm view @ouro.bot/work-protocol name >/dev/null 2>&1; then
+            echo "::notice::@ouro.bot/work-protocol is not on npm yet. Its first publish is manual; after it and the trusted-publisher setup, this job publishes each new version."
+            exit 0
+          fi
+          if [ "$(npm view "@ouro.bot/work-protocol@${LOCAL}" version 2>/dev/null)" = "$LOCAL" ]; then
+            echo "@ouro.bot/work-protocol@${LOCAL} is already published"
+            exit 0
+          fi
+          npm publish --workspace @ouro.bot/work-protocol --access public --tag latest
+          for attempt in $(seq 1 30); do
+            [ "$(npm view @ouro.bot/work-protocol@latest version 2>/dev/null)" = "$LOCAL" ] && { echo "verified ${LOCAL} as latest"; exit 0; }
+            sleep 10
+          done
+          echo "::error::@ouro.bot/work-protocol@latest is not ${LOCAL} after five minutes"
+          exit 1

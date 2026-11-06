@@ -2,7 +2,7 @@ import * as fs from "node:fs"
 import * as os from "node:os"
 import * as path from "node:path"
 import { describe, expect, it, vi } from "vitest"
-import { ensureMailboxRegistry } from "@ouro/work-protocol"
+import { ensureMailboxRegistry } from "@ouro.bot/work-protocol"
 import { AzureBlobRegistryProvider, FileRegistryProvider, StaticRegistryProvider, emptyRegistry } from "../registry"
 
 class FakeBlob {

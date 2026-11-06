@@ -1,6 +1,6 @@
 import { Readable } from "node:stream"
 import { describe, expect, it } from "vitest"
-import type { MailOutboundDeliveryEvent, MailOutboundRecord } from "@ouro/work-protocol"
+import type { MailOutboundDeliveryEvent, MailOutboundRecord } from "@ouro.bot/work-protocol"
 import { AzureBlobOutboundEventSink } from "../outbound-events"
 
 class FakeBlob {

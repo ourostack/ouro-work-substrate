@@ -5,7 +5,7 @@ import {
   resolveMailAddress,
   type EncryptedPayload,
   type StoredMailMessage,
-} from "@ouro/work-protocol"
+} from "@ouro.bot/work-protocol"
 import { AzureBlobMailroomStore, decryptMessages } from "../store"
 
 class FakeBlob {

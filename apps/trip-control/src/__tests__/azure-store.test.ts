@@ -1,6 +1,6 @@
 import { Readable } from "node:stream"
 import { describe, expect, it } from "vitest"
-import { encryptTripRecord, generateTripKeyPair, type TripRecord } from "@ouro/work-protocol"
+import { encryptTripRecord, generateTripKeyPair, type TripRecord } from "@ouro.bot/work-protocol"
 import { AzureBlobTripLedgerStore, TripNotFoundError } from "../store"
 
 class FakeBlob {

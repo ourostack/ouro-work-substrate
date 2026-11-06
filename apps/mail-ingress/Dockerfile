@@ -7,7 +7,7 @@ RUN npm install
 COPY tsconfig.base.json vitest.config.ts ./
 COPY packages/work-protocol packages/work-protocol
 COPY apps/mail-ingress apps/mail-ingress
-RUN npm run build --workspace @ouro/work-protocol && npm run build --workspace @ouro/mail-ingress
+RUN npm run build --workspace @ouro.bot/work-protocol && npm run build --workspace @ouro/mail-ingress
 
 FROM node:22-slim AS runtime
 WORKDIR /app

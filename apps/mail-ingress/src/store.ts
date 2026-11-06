@@ -16,7 +16,7 @@ import {
   type PrivateMailEnvelope,
   type ResolvedMailAddress,
   type StoredMailMessage,
-} from "@ouro/work-protocol"
+} from "@ouro.bot/work-protocol"
 import { logEvent } from "./log"
 
 const MESSAGE_INDEX_PREFIX = "message-index"

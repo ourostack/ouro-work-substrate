@@ -231,7 +231,7 @@ describe("ACS sender username provisioner", () => {
 
   it("falls back to the sender username when a mocked address slug has no display words", async () => {
     vi.resetModules()
-    vi.doMock("@ouro/work-protocol", () => ({
+    vi.doMock("@ouro.bot/work-protocol", () => ({
       safeAddressPart: () => "fallback-sender",
     }))
     try {
@@ -266,7 +266,7 @@ describe("ACS sender username provisioner", () => {
         domainName: "ouro.bot",
       })
     } finally {
-      vi.doUnmock("@ouro/work-protocol")
+      vi.doUnmock("@ouro.bot/work-protocol")
       vi.resetModules()
     }
   })
