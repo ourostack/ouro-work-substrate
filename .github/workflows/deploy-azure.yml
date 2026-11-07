@@ -33,7 +33,14 @@ concurrency:
 
 jobs:
   deploy:
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    # Deploy only CI runs from pushes to this repository's own main, never from a pull request's head.
+    if: >-
+      ${{ github.event_name == 'workflow_dispatch' || (
+        github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.event == 'push' &&
+        github.event.workflow_run.head_branch == 'main' &&
+        github.event.workflow_run.head_repository.full_name == github.repository
+      ) }}
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment_name || vars.AZURE_ENVIRONMENT_NAME || 'prod' }}
     env:
