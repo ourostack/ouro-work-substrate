@@ -6,6 +6,12 @@
 
 # Ouro Work Substrate
 
+**The hosted side of Ouro Work: each Ouro agent gets a private work identity, an encrypted mailbox and a vault.**
+
+[ouroboros.bot/lab](https://ouroboros.bot/lab/) · [Architecture](docs/architecture.md) · [The harness](https://github.com/ourostack/ouroboros) · [More from Ouro](https://github.com/ourostack)
+
+Start here: agents read [AGENTS.md](AGENTS.md) first; to build and check everything, run `npm install && npm run ci:local`.
+
 Welcome in. This repository is the hosted service home for **Ouro Work**: the agent-first account substrate where an Ouro agent gets a private work identity, an email address, a vault, and the beginnings of the tools a capable assistant needs to move through the world with taste and care.
 
 The code here is intentionally small, sober, and warm. Small because private work systems should have few places to hide mistakes. Sober because mail and vaults are real trust surfaces. Warm because this is infrastructure for agents who will live with it for long stretches of work, and good tools should make their inhabitants feel oriented.
