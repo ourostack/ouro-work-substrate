@@ -86,7 +86,10 @@ function generateRsaKeypair(): { publicKeyB64: string; privateKeyDer: Buffer } {
 
 const KDF_PBKDF2 = 0
 const KDF_ITERATIONS = 600000
-const REGISTER_ACCOUNT_PATH = "/identity/accounts/register"
+const SEND_VERIFICATION_EMAIL_PATH = "/identity/accounts/register/send-verification-email"
+const REGISTER_FINISH_PATH = "/identity/accounts/register/finish"
+const LEGACY_REGISTER_ACCOUNT_PATH = "/identity/accounts/register"
+const JSON_HEADERS = { "Content-Type": "application/json", Accept: "application/json" }
 
 export async function buildVaultRegistrationPayload(input: {
   agentName: string
@@ -115,6 +118,75 @@ export async function buildVaultRegistrationPayload(input: {
   }
 }
 
+type RegistrationStep = { ok: true } | { ok: false; error: string }
+
+async function readErrorDetail(res: Response): Promise<string> {
+  try {
+    const body = await res.json() as { message?: string }
+    return body.message ?? `HTTP ${res.status} ${res.statusText}`
+  } catch {
+    return `HTTP ${res.status} ${res.statusText}`
+  }
+}
+
+function describeRegistrationFailure(detail: string, url: string, email: string): string {
+  if (/registration not allowed/i.test(detail)) {
+    return `the vault server doesn't allow signups for ${email}; ask its admin to invite it (Vaultwarden admin → Invite User), then retry. (${detail} from ${url})`
+  }
+  return `${detail} from ${url}. Check vault server identity API.`
+}
+
+/** Vaultwarden returns the token as a JSON string when asked for JSON, or as plain text otherwise. */
+async function readVerificationToken(res: Response): Promise<string> {
+  const text = (await res.text()).trim()
+  try {
+    const parsed: unknown = JSON.parse(text)
+    return typeof parsed === "string" ? parsed : ""
+  } catch {
+    return text
+  }
+}
+
+/**
+ * Current Bitwarden/Vaultwarden registration: request a verification token, then finish
+ * registration with it. Servers that predate this flow (404 on send-verification-email)
+ * get the legacy single-step `/identity/accounts/register`.
+ */
+async function registerAccount(
+  fetcher: typeof fetch,
+  serverUrl: string,
+  payload: VaultRegistrationPayload,
+): Promise<RegistrationStep> {
+  const post = (url: string, body: unknown) => fetcher(url, { method: "POST", headers: JSON_HEADERS, body: JSON.stringify(body) })
+  const verifyUrl = `${serverUrl}${SEND_VERIFICATION_EMAIL_PATH}`
+  const verifyRes = await post(verifyUrl, { email: payload.email, name: payload.name, receiveMarketingEmails: false })
+
+  if (verifyRes.status === 404) {
+    const legacyUrl = `${serverUrl}${LEGACY_REGISTER_ACCOUNT_PATH}`
+    const legacyRes = await post(legacyUrl, payload)
+    return legacyRes.ok
+      ? { ok: true }
+      : { ok: false, error: describeRegistrationFailure(await readErrorDetail(legacyRes), legacyUrl, payload.email) }
+  }
+  if (!verifyRes.ok) {
+    return { ok: false, error: describeRegistrationFailure(await readErrorDetail(verifyRes), verifyUrl, payload.email) }
+  }
+
+  const token = verifyRes.status === 204 ? "" : await readVerificationToken(verifyRes)
+  if (!token) {
+    return {
+      ok: false,
+      error: `the vault server at ${serverUrl} requires email verification for new accounts and sent a link to ${payload.email}; registration can't finish unattended. Turn off signup verification or invite the account, then retry.`,
+    }
+  }
+
+  const finishUrl = `${serverUrl}${REGISTER_FINISH_PATH}`
+  const finishRes = await post(finishUrl, { ...payload, emailVerificationToken: token })
+  return finishRes.ok
+    ? { ok: true }
+    : { ok: false, error: describeRegistrationFailure(await readErrorDetail(finishRes), finishUrl, payload.email) }
+}
+
 export async function createVaultAccount(input: {
   agentName: string
   serverUrl: string
@@ -123,35 +195,17 @@ export async function createVaultAccount(input: {
   fetchImpl?: typeof fetch
 }): Promise<VaultSetupResult> {
   const fetcher = input.fetchImpl ?? fetch
-  const registrationUrl = `${input.serverUrl.replace(/\/+$/, "")}${REGISTER_ACCOUNT_PATH}`
+  const serverUrl = input.serverUrl.replace(/\/+$/, "")
   try {
     const payload = await buildVaultRegistrationPayload({
       agentName: input.agentName,
       email: input.email,
       masterPassword: input.masterPassword,
     })
-    const res = await fetcher(registrationUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    })
-
-    if (!res.ok) {
-      let errorDetail: string
-      try {
-        const body = await res.json() as { message?: string }
-        errorDetail = body.message ?? `HTTP ${res.status} ${res.statusText}`
-      } catch {
-        errorDetail = `HTTP ${res.status} ${res.statusText}`
-      }
-      return {
-        success: false,
-        email: input.email,
-        serverUrl: input.serverUrl,
-        error: `${errorDetail} from ${registrationUrl}. Check vault server identity API.`,
-      }
+    const step = await registerAccount(fetcher, serverUrl, payload)
+    if (!step.ok) {
+      return { success: false, email: input.email, serverUrl: input.serverUrl, error: step.error }
     }
-
     return { success: true, email: input.email, serverUrl: input.serverUrl }
   } catch (error) {
     const reason = error instanceof Error ? error.message : String(error)
@@ -159,7 +213,7 @@ export async function createVaultAccount(input: {
       success: false,
       email: input.email,
       serverUrl: input.serverUrl,
-      error: `cannot reach vault registration endpoint ${registrationUrl}: ${reason}`,
+      error: `cannot reach vault registration endpoint ${serverUrl}${SEND_VERIFICATION_EMAIL_PATH}: ${reason}`,
     }
   }
 }
