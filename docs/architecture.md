@@ -88,6 +88,8 @@ Native mailbox mail defaults to Screener. Delegated source-grant mail can defaul
 
 `apps/vault-control` receives authenticated requests from an Ouro control plane or trusted operator automation. It creates Vaultwarden accounts via the Bitwarden registration protocol and returns only operational status.
 
+Registration uses Vaultwarden's current two-step flow: `POST /identity/accounts/register/send-verification-email` returns a verification token, then `POST /identity/accounts/register/finish` creates the account with `emailVerificationToken`. Vaultwarden 2026.x removed the old `POST /identity/accounts/register`; Vault Control uses it only when a server answers 404 to the verification step. When the server has signups closed, it refuses addresses that were not invited, and Vault Control's error tells the operator to invite the email in the Vaultwarden admin panel (Invite User) and retry. When the server emails verification links instead of returning a token, registration can't finish unattended and the error says so.
+
 The caller owns generated passwords and stores them in the agent vault. The control service does not persist them, and logs must never carry them.
 
 ## Scaling Shape

@@ -99,7 +99,7 @@ describe("vault control server", () => {
     let captured = false
     const fetchImpl = (async () => {
       captured = true
-      return new Response("{}", { status: 200 })
+      return new Response(JSON.stringify("verify-token"), { status: 200 })
     }) as typeof fetch
     const server = createVaultControlServer({
       vaultServerUrl: "https://vault.example.com",
@@ -135,7 +135,7 @@ describe("vault control server", () => {
       vaultServerUrl: "https://vault.example.com",
       adminToken: "token",
       allowedEmailDomain: "ouro.bot",
-      fetchImpl: (async () => new Response("{}", { status: 200 })) as typeof fetch,
+      fetchImpl: (async () => new Response(JSON.stringify("verify-token"), { status: 200 })) as typeof fetch,
     })
     const port = await listen(server)
     try {
@@ -162,7 +162,7 @@ describe("vault control server", () => {
       vaultServerUrl: "https://vault.example.com",
       adminToken: "token",
       allowedEmailDomain: "ouro.bot",
-      fetchImpl: (async () => new Response("{}", { status: 200 })) as typeof fetch,
+      fetchImpl: (async () => new Response(JSON.stringify("verify-token"), { status: 200 })) as typeof fetch,
     })
     const port = await listen(server)
     try {
@@ -265,7 +265,7 @@ describe("vault control server", () => {
   })
 
   it("falls through to process fetch when no injected fetch is configured", async () => {
-    const fetchMock = vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response("{}", { status: 200 }))
+    const fetchMock = vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(JSON.stringify("verify-token"), { status: 200 }))
     const server = createVaultControlServer({
       vaultServerUrl: "https://vault.example.com",
       adminToken: "token",
@@ -335,7 +335,7 @@ describe("vault control server", () => {
       vaultServerUrl: "https://vault.example.com",
       allowedEmailDomain: "ouro.bot",
       allowUnauthenticatedLocal: true,
-      fetchImpl: (async () => new Response("{}", { status: 200 })) as typeof fetch,
+      fetchImpl: (async () => new Response(JSON.stringify("verify-token"), { status: 200 })) as typeof fetch,
     })
     const port = await listen(server)
     try {
@@ -365,7 +365,7 @@ describe("vault control server", () => {
       allowedEmailDomain: "ouro.bot",
       fetchImpl: (async () => {
         captured = true
-        return new Response("{}", { status: 200 })
+        return new Response(JSON.stringify("verify-token"), { status: 200 })
       }) as typeof fetch,
     })
     const port = await listen(server)
