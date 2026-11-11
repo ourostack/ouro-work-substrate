@@ -18,11 +18,11 @@
     "clean": "rm -rf packages/*/dist apps/*/dist coverage"
   },
   "devDependencies": {
-    "@types/mailparser": "^3.4.6",
-    "@types/node": "^25.7.0",
+    "@types/mailparser": "^3.9.0",
+    "@types/node": "^26.6.6",
     "@types/smtp-server": "^3.5.13",
     "@vitest/coverage-v8": "^5.1.0",
-    "typescript": "^6.0.3",
+    "typescript": "^7.0.2",
     "vitest": "^5.1.0"
   },
   "engines": {

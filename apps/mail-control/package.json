@@ -8,8 +8,8 @@
     "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@azure/identity": "^4.13.0",
-    "@azure/storage-blob": "^12.33.0",
+    "@azure/identity": "^4.14.1",
+    "@azure/storage-blob": "^12.34.0",
     "@ouro.bot/work-protocol": "0.1.0-alpha.1"
   }
 }
