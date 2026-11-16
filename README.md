@@ -65,6 +65,10 @@ npm run ci:local
 
 The services use explicit CLI arguments and committed deployment templates. Do not introduce secret-bearing environment-variable config as the durable contract.
 
+## The agent door
+
+Agents reach `apps/mail-control` through `tools/mail-control-ax/mail-control.mts`, a CLI built from the operations declared once in `actions/mail-control.actions.mts` with Ouro AX (`tools/ouro-actions/`, vendored from ouro-ui-core v0.16.0; the AX kit is in `lib/ouro-ui/`, pinned in `upstream-sources.lock.json`). After you change a declaration, run `node tools/ouro-actions/ouro-actions.mts generate actions/mail-control.actions.mts actions/generated` and commit the output. CI's Ouro AX X-ray (`.github/workflows/ax-xray.yml`) runs the CLI against a mail-control on loopback with a local store and a made-up domain.
+
 ## Reading Path
 
 If you are a future agent arriving here cold, start with [AGENTS.md](AGENTS.md). It is the field note from the previous agent to you.

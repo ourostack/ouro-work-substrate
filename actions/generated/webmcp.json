@@ -1,0 +1,106 @@
+{
+  "generator": "ouro-actions 0.16.0",
+  "set": "mail-control",
+  "tools": [
+    {
+      "name": "service_health",
+      "description": "Check that mail-control answers, and the domain and counts it serves. Changes nothing.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "consequentialHint": false
+      }
+    },
+    {
+      "name": "ensure_mailbox",
+      "description": "Set up the agent's mailbox and delegated mail; new keys come back once.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "agentId": {
+            "type": "string",
+            "description": "The agent's id: 2 to 63 letters, numbers, underscores or hyphens."
+          },
+          "ownerEmail": {
+            "type": "string",
+            "description": "The email address of the family member who delegates their mail to this agent.",
+            "format": "email"
+          },
+          "source": {
+            "type": "string",
+            "description": "Where the delegated mail comes from. Defaults to hey when an owner email is given.",
+            "maxLength": 64
+          },
+          "sourceTag": {
+            "type": "string",
+            "description": "A short tag that tells this source's mail apart.",
+            "maxLength": 64
+          }
+        },
+        "required": [
+          "agentId"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "consequentialHint": false
+      }
+    },
+    {
+      "name": "rotate_mailbox_keys",
+      "description": "Replace the mailbox's or source grant's keys; the old keys stop working for new mail.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "agentId": {
+            "type": "string",
+            "description": "The agent's id: 2 to 63 letters, numbers, underscores or hyphens."
+          },
+          "ownerEmail": {
+            "type": "string",
+            "description": "The email address of the family member who delegates their mail to this agent.",
+            "format": "email"
+          },
+          "source": {
+            "type": "string",
+            "description": "Where the delegated mail comes from. Defaults to hey when an owner email is given.",
+            "maxLength": 64
+          },
+          "sourceTag": {
+            "type": "string",
+            "description": "A short tag that tells this source's mail apart.",
+            "maxLength": 64
+          },
+          "rotateMailbox": {
+            "type": "boolean",
+            "description": "Replace the native mailbox's keys."
+          },
+          "rotateSourceGrant": {
+            "type": "boolean",
+            "description": "Replace the delegated source grant's keys."
+          },
+          "reason": {
+            "type": "string",
+            "description": "Why the keys change, in a short line.",
+            "maxLength": 256
+          }
+        },
+        "required": [
+          "agentId"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "consequentialHint": false
+      }
+    }
+  ],
+  "refusals": {}
+}
