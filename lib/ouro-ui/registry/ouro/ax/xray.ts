@@ -513,10 +513,15 @@ function commandsOf(help: Record<string, unknown>, name: string): CliCommand[] {
   });
 }
 
+async function toolNameOf(base: readonly string[], env: Record<string, string>, timeoutMs: number): Promise<string | null> {
+  const help = parseJson((await run([...base, "help", "--json"], env, timeoutMs)).stdout);
+  return help.ok && isRecord(help.value) && typeof help.value["tool"] === "string" ? help.value["tool"] : null;
+}
+
 async function checkCli(ctx: Context) {
   const { rec, opts, env } = ctx;
   const base = splitCommand(opts.cli!);
-  const name = opts.name ?? basename(base[base.length - 1]!).replace(/\.[cm]?[jt]s$/, "");
+  const name = opts.name ?? (await toolNameOf(base, env, opts.timeoutMs)) ?? basename(base[base.length - 1]!).replace(/\.[cm]?[jt]s$/, "");
   const calls: (RunResult & { args: string[]; shown: string })[] = [];
   const call = async (args: string[], input: string | null = null, timeoutMs = opts.timeoutMs, closed = false) => {
     const r = await run([...base, ...args], env, timeoutMs, input, closed);
