@@ -53,6 +53,7 @@ If you are here to operate production:
 - `packages/work-protocol`: the shared language. If a concept crosses service/runtime boundaries, it probably starts here.
 - `apps/mail-ingress`: public-facing SMTP edge and encrypted mail storage.
 - `apps/mail-control`: authenticated mailbox and source-grant provisioning.
+- `tools/mail-control-ax`: the agent door to mail-control, declared in `actions/` and checked by the Ouro AX X-ray.
 - `apps/vault-control`: authenticated vault account creation.
 - `infra/azure`: the deployable Azure shape.
 - `.github/workflows`: CI and deployment. Main deploys automatically only after CI succeeds.

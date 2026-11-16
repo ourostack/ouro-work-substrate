@@ -1,0 +1,81 @@
+{
+  "generator": "ouro-actions 0.16.0",
+  "set": "mail-control",
+  "tool": "mail-control",
+  "commands": [
+    {
+      "name": "health",
+      "summary": "Check that mail-control answers, and the domain and counts it serves. Changes nothing.",
+      "effect": "private",
+      "readOnly": true,
+      "output": "{ domain, mailboxes, sourceGrants }"
+    },
+    {
+      "name": "mailbox ensure",
+      "summary": "Set up the agent's mailbox and delegated mail; new keys come back once.",
+      "effect": "private",
+      "args": [
+        {
+          "name": "agentId",
+          "description": "The agent's id: 2 to 63 letters, numbers, underscores or hyphens.",
+          "required": true
+        }
+      ],
+      "flags": {
+        "owner-email": {
+          "type": "string",
+          "description": "The email address of the family member who delegates their mail to this agent."
+        },
+        "source": {
+          "type": "string",
+          "description": "Where the delegated mail comes from. Defaults to hey when an owner email is given."
+        },
+        "source-tag": {
+          "type": "string",
+          "description": "A short tag that tells this source's mail apart."
+        }
+      },
+      "output": "{ mailboxAddress, generatedPrivateKeys }"
+    },
+    {
+      "name": "mailbox rotate-keys",
+      "summary": "Replace the mailbox's or source grant's keys; the old keys stop working for new mail.",
+      "effect": "private",
+      "args": [
+        {
+          "name": "agentId",
+          "description": "The agent's id: 2 to 63 letters, numbers, underscores or hyphens.",
+          "required": true
+        }
+      ],
+      "flags": {
+        "owner-email": {
+          "type": "string",
+          "description": "The email address of the family member who delegates their mail to this agent."
+        },
+        "source": {
+          "type": "string",
+          "description": "Where the delegated mail comes from. Defaults to hey when an owner email is given."
+        },
+        "source-tag": {
+          "type": "string",
+          "description": "A short tag that tells this source's mail apart."
+        },
+        "rotate-mailbox": {
+          "type": "boolean",
+          "description": "Replace the native mailbox's keys."
+        },
+        "rotate-source-grant": {
+          "type": "boolean",
+          "description": "Replace the delegated source grant's keys."
+        },
+        "reason": {
+          "type": "string",
+          "description": "Why the keys change, in a short line."
+        }
+      },
+      "output": "{ mailboxAddress, generatedPrivateKeys }"
+    }
+  ],
+  "personOnly": {}
+}

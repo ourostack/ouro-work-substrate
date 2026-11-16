@@ -1,0 +1,82 @@
+name: Ouro AX X-ray
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  xray:
+    runs-on: ubuntu-latest
+    env:
+      MAIL_CONTROL_URL: http://127.0.0.1:4317
+      XRAY_HOME: ${{ runner.temp }}/xray-home
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+
+      - name: Check the declarations still generate the committed projections
+        run: node tools/ouro-actions/ouro-actions.mts check actions/mail-control.actions.mts actions/generated
+
+      - name: Start mail-control on loopback, against a local store and a made-up domain
+        run: |
+          mkdir -p "$XRAY_HOME" xray xray-actions
+          printf '%s\n' "ax-xray-local-token" > "$RUNNER_TEMP/admin-token"
+          node apps/mail-control/dist/index.js \
+            --store "$RUNNER_TEMP/mail-store.json" \
+            --admin-token-file "$RUNNER_TEMP/admin-token" \
+            --registry-domain ouro.example.test \
+            --allowed-email-domain example.test \
+            --host 127.0.0.1 --port 4317 > "$RUNNER_TEMP/mail-control.log" 2>&1 &
+          for attempt in $(seq 1 30); do
+            curl -fsS "$MAIL_CONTROL_URL/health" && exit 0
+            sleep 1
+          done
+          cat "$RUNNER_TEMP/mail-control.log"
+          exit 1
+
+      - name: Generate the CLI inventory from its own registration
+        run: node tools/mail-control-ax/inventory.mts > inventory.json
+
+      - name: Ouro AX X-ray of the mail-control door
+        run: |
+          node lib/ouro-ui/registry/ouro/ax/xray.ts \
+            --cli "node tools/mail-control-ax/mail-control.mts" \
+            --inventory inventory.json --conformance \
+            --home "$XRAY_HOME" \
+            --env "MAIL_CONTROL_URL=$MAIL_CONTROL_URL" \
+            --guard "node tools/mail-control-ax/assert-mock.mts" \
+            --state "node tools/mail-control-ax/mail-control.mts health --json" \
+            --commit "$GITHUB_SHA" --json --md xray/xray.md > xray/report.json
+          cp inventory.json xray/inventory.json
+
+      - name: Action claims on the committed projections
+        run: |
+          node tools/ouro-actions/ouro-actions.mts check actions/mail-control.actions.mts actions/generated \
+            --report xray-actions/report.json --app "Ouro Work mail-control" --commit "$GITHUB_SHA"
+
+      - name: Upload the X-ray report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xray
+          path: xray/
+
+      - name: Upload the action claims report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: actions-xray
+          path: xray-actions/
