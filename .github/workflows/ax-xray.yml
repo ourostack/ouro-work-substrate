@@ -17,7 +17,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       MAIL_CONTROL_URL: http://127.0.0.1:4317
-      XRAY_HOME: ${{ runner.temp }}/xray-home
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -32,7 +31,7 @@ jobs:
 
       - name: Start mail-control on loopback, against a local store and a made-up domain
         run: |
-          mkdir -p "$XRAY_HOME" xray xray-actions
+          mkdir -p "$RUNNER_TEMP/xray-home" xray xray-actions
           printf '%s\n' "ax-xray-local-token" > "$RUNNER_TEMP/admin-token"
           node apps/mail-control/dist/index.js \
             --store "$RUNNER_TEMP/mail-store.json" \
@@ -55,7 +54,7 @@ jobs:
           node lib/ouro-ui/registry/ouro/ax/xray.ts \
             --cli "node tools/mail-control-ax/mail-control.mts" \
             --inventory inventory.json --conformance \
-            --home "$XRAY_HOME" \
+            --home "$RUNNER_TEMP/xray-home" \
             --env "MAIL_CONTROL_URL=$MAIL_CONTROL_URL" \
             --guard "node tools/mail-control-ax/assert-mock.mts" \
             --state "node tools/mail-control-ax/mail-control.mts health --json" \
