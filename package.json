@@ -10,7 +10,8 @@
   ],
   "scripts": {
     "build": "npm run build --workspaces --if-present",
-    "test": "npm run build && vitest run",
+    "test": "npm run build && vitest run && npm run test:tools",
+    "test:tools": "node --test 'tools/**/*.test.mts'",
     "test:coverage": "npm run build && vitest run --coverage",
     "typecheck": "npm run build",
     "infra:check": "az bicep build --file infra/azure/main.bicep && az bicep build --file infra/azure/registry.bicep && rm -f infra/azure/main.json infra/azure/registry.json",
