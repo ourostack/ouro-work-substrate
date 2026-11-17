@@ -4,8 +4,8 @@
     {
       "id": "ourostack-ouro-ui-ax",
       "repository": "ourostack/ouro-ui",
-      "tag": "v1.3.268",
-      "commit": "b00097ce5b2bfce6edc6616aaa61094a10883ec7",
+      "tag": "v1.3.269",
+      "commit": "d7e06fc68bff752ccc1f59c3a3c0214aa5a9dbd3",
       "license": "MIT",
       "files": [
         { "sourcePath": "LICENSE", "generatedPath": "lib/ouro-ui/LICENSE", "sha256": "6515c640c8b25cea05a476e6c5e325a3d9699f16e83a72048b32ecae08fdc4ab" },
