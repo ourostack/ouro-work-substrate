@@ -18,12 +18,12 @@ param mailControlImage string
 @description('Container image for apps/vault-control.')
 param vaultControlImage string
 
-@description('Container image for apps/trip-control.')
-param tripControlImage string
+@description('Container image for apps/trip-control. Empty skips the trip-control app (it has no image build in Deploy Azure yet).')
+param tripControlImage string = ''
 
 @description('Bearer token for trip-control.')
 @secure()
-param tripControlAdminToken string
+param tripControlAdminToken string = ''
 
 @description('Trip ledger storage container name.')
 param tripContainerName string = 'trips'
@@ -671,7 +671,7 @@ resource vaultControl 'Microsoft.App/containerApps@2024-03-01' = {
   ]
 }
 
-resource tripControl 'Microsoft.App/containerApps@2024-03-01' = {
+resource tripControl 'Microsoft.App/containerApps@2024-03-01' = if (!empty(tripControlImage)) {
   name: '${prefix}-trip-control'
   location: location
   identity: {
@@ -782,7 +782,7 @@ output mailSmtpPort int = mailExposedSmtpPort
 output mailStorageAccountUrl string = 'https://${storage.name}.blob.${az.environment().suffixes.storage}'
 output mailControlFqdn string = mailControl.properties.configuration.ingress.fqdn
 output vaultControlFqdn string = vaultControl.properties.configuration.ingress.fqdn
-output tripControlFqdn string = tripControl.properties.configuration.ingress.fqdn
+output tripControlFqdn string = !empty(tripControlImage) ? tripControl.properties.configuration.ingress.fqdn : ''
 output outboundAcsEndpoint string = 'https://${outboundCommunicationService.name}.communication.azure.com'
 output outboundCommunicationServiceName string = outboundCommunicationService.name
 output outboundEmailServiceName string = outboundEmailService.name
