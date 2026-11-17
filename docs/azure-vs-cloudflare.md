@@ -61,3 +61,13 @@ Move, in this order, because Azure's floor is the problem rather than its usage:
 ## Deploy Azure sign-in
 
 `AZURE_CLIENT_ID` (`990c9dbc…`) is the user-assigned managed identity `id-ourowork-github-prod`. Its federated credentials are for the old `ouroborosbot` organization (`repo:ouroborosbot/ouro-work-substrate:environment:prod` and `…:ref:refs/heads/main`), which is why the workflow has failed since the repo moved with `AADSTS700213`. The fix is two credentials for `repo:ourostack/ouro-work-substrate` (environment `prod` and `ref:refs/heads/main`); creating them needs the subscription enabled. If the work moves to Cloudflare, retire `deploy-azure.yml` instead.
+
+## Outcome (2026-11-16)
+
+Azure was re-enabled and the vault answers (`vault.ouro.bot/alive` 200). Done:
+
+- Vault Postgres dumped (`pg_dump -Fc`) and `rsa_key.pem` copied to the private `vault-backups` blob container (public access off) and to a mode-700 folder on the mini.
+- Federated credentials for `repo:ourostack/ouro-work-substrate` (`environment:prod` and `ref:refs/heads/main`) added to `id-ourowork-github-prod`; trip-control made optional in Bicep; Deploy Azure is green.
+- Deleted the mailroom `proof` app, its environment (its load balancer, public IP and VNet), the mailroom registry and VNet. Scaled `ouro-desk-hosted` to min 0 (`ourostack/desk` provision.sh updated).
+
+Estimated spend after the trim is about $125-130 a month, under the $150 credit, so the move is not needed for cost. Cloudflare would still need Workers Paid ($5, for Containers), an external Postgres, and a rewrite of mail ingress, with no cost win large enough to justify the risk. Decision: stay on trimmed Azure. Revisit if spend exceeds the credit.
