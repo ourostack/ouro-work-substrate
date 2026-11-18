@@ -69,14 +69,14 @@ jobs:
 
       - name: Upload the X-ray report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: xray
           path: xray/
 
       - name: Upload the action claims report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: actions-xray
           path: xray-actions/
