@@ -1,2 +1,8 @@
 * @arimendelow
 
+# Ouro Current's "Update to Ouro UI" pull requests touch only these paths. A path with no owner asks nobody, so a code owner
+# review is not requested on an automated update that merges itself when its checks pass.
+/upstream-sources.lock.json
+/lib/ouro-ui/
+/tools/ouro-actions/dist-manifest.json
+/tools/ouro-actions/ouro-actions.mts
