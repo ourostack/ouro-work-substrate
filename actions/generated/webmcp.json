@@ -1,9 +1,10 @@
 {
-  "generator": "ouro-actions 0.16.0",
+  "generator": "ouro-actions 1.4.1",
   "set": "mail-control",
   "tools": [
     {
       "name": "service_health",
+      "title": "Check mail service",
       "description": "Check that mail-control answers, and the domain and counts it serves. Changes nothing.",
       "inputSchema": {
         "type": "object",
@@ -18,6 +19,7 @@
     },
     {
       "name": "ensure_mailbox",
+      "title": "Set up mail",
       "description": "Set up the agent's mailbox and delegated mail; new keys come back once.",
       "inputSchema": {
         "type": "object",
@@ -54,6 +56,7 @@
     },
     {
       "name": "rotate_mailbox_keys",
+      "title": "Rotate mail keys",
       "description": "Replace the mailbox's or source grant's keys; the old keys stop working for new mail.",
       "inputSchema": {
         "type": "object",
