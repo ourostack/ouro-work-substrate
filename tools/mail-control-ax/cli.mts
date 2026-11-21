@@ -2,7 +2,7 @@
 // generated commands.json and run against apps/mail-control over HTTP. The service's bearer token is read from a file
 // (--token-file), never from the environment; the base address comes from --url or MAIL_CONTROL_URL.
 import { readFileSync } from "node:fs";
-import { defineCli, defineCommand, type CommandDef } from "../../lib/ouro-ui/registry/ouro/ax/command.ts";
+import { defineCli, defineCommand, type CommandDef } from "../../lib/ouro-ui/registry/ouro/ax/ax-command.ts";
 import { defineExitCodes, BASE_EXIT_CODES } from "../../lib/ouro-ui/registry/ouro/ax/exit-codes.ts";
 import { AxError } from "../../lib/ouro-ui/registry/ouro/ax/problem.ts";
 import { fromCli } from "../../actions/generated/web.ts";
