@@ -153,14 +153,14 @@
     {
       "id": "ourostack-ouro-ui-core-actions",
       "repository": "ourostack/ouro-ui-core",
-      "tag": "v1.8.0",
-      "commit": "0191e5b9beb8450ff13f3a3e3ac39fd508249d3b",
+      "tag": "v1.9.0",
+      "commit": "28f403ed02d04af3b2dd05672370765057d5cffb",
       "license": "MIT",
       "files": [
         {
           "sourcePath": "dist/actions/ouro-actions.mts",
           "generatedPath": "tools/ouro-actions/ouro-actions.mts",
-          "sha256": "03123d723ac143c60002f00a35d63bce72ff8b6d9e3522737de231d0a1ffaa65"
+          "sha256": "bfe711920c690735c24a6bd734986759f0eb0889c002438c3de7d7a8e3f4762b"
         },
         {
           "sourcePath": "dist/ax/actions.claims.json",
